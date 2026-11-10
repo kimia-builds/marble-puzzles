@@ -18,7 +18,7 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-main { max-width: 760px; margin: 0 auto; padding: 16px; }
+main { max-width: 900px; margin: 0 auto; padding: 16px; }
 h1 { font-size: 1.4rem; margin: 8px 0 4px; }
 h2 { font-size: 1rem; margin: 0 0 4px; }
 #goal { margin: 0 0 12px; }
@@ -70,6 +70,7 @@ h2 { font-size: 1rem; margin: 0 0 4px; }
 /* ---- ramps (picture comes from the ttsim sprite sheet) ---- */
 .ramp {
   position: absolute;
+  transform-origin: 50% 50%;
   background-image: url("../assets/parts.png");
   background-repeat: no-repeat;
   pointer-events: none;
@@ -103,12 +104,12 @@ h2 { font-size: 1rem; margin: 0 0 4px; }
 #tray { display: flex; gap: 12px; }
 .tray-slot {
   position: relative;
-  width: 92px; height: 92px;
+  width: 76px; height: 76px;
   border: 2px dashed var(--board-edge);
   border-radius: 8px;
 }
 #tray.empty .tray-slot { opacity: 0.35; }
-.tray-ramp { cursor: grab; pointer-events: auto; touch-action: none; left: 6px; top: 6px; }
+.tray-ramp { cursor: grab; pointer-events: auto; touch-action: none; left: 10px; top: 10px; }
 #tray.empty .tray-ramp { cursor: default; pointer-events: none; }
 .hint { font-size: 0.85rem; color: #666; margin-bottom: 0; }
 
@@ -122,3 +123,27 @@ footer {
   font-size: 0.8rem;
   color: #666;
 }
+
+/* ---- marbles ---- */
+.marble {
+  position: absolute;
+  left: 0; top: 0;
+  width: 17.5px; height: 17.5px;
+  margin: -8.75px 0 0 -8.75px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 3;
+  box-shadow: inset -2px -3px 4px rgba(0,0,0,.25), 0 1px 2px rgba(0,0,0,.3);
+}
+.marble.blue { background: radial-gradient(circle at 35% 30%, #8fb4ff, var(--blue) 60%); }
+.marble.red { background: radial-gradient(circle at 35% 30%, #ff9d97, var(--red) 60%); }
+
+#controls { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+#controls button {
+  font: inherit; font-weight: 600; padding: 10px 12px; border-radius: 8px;
+  border: 2px solid var(--board-edge); background: #fff; cursor: pointer;
+}
+#controls button:disabled { opacity: .4; cursor: default; }
+#controls #drop-blue { border-color: var(--blue); color: var(--blue); }
+#controls #drop-red { border-color: var(--red); color: var(--red); }
+#tally { margin: 10px 0 0; font-size: .9rem; }

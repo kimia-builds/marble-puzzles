@@ -4,9 +4,10 @@
   "use strict";
 
   // ---- sizes (pixels on screen) ----
-  var SPRITE = 80;            // one ttsim picture is 96px; we show it smaller
-  var COL = 40;               // one column step = half a gap between pegs
-  var ROW = 60;               // one row step
+  var SPRITE = 56;            // one ttsim picture is 96px; shown at 56px so 1 ttsim unit = K screen pixels
+  var K = SPRITE * 1.5 / 96;  // ttsim draws its 64-unit parts in 96px pictures
+  var COL = 68 * K;           // one column step (ttsim spacing is 68 units, same for rows)
+  var ROW = 68 * K;           // one row step
   var MAX_COL = 4;            // board runs from column -4 to +4
   var SNAP = 44;              // how close a drop must be to a spot to count
   var SHEET = 1040, FRAME = 96;
@@ -19,7 +20,7 @@
   var countEl = document.getElementById("tray-count");
 
   var PAD = 24;
-  var TOP = 70;               // room for the funnels above row 0
+  var TOP = 100;              // room for the funnels above row 0
   var boardW = 2 * MAX_COL * COL + SPRITE + 2 * PAD - 0;
   var boardH = TOP + lastRow * ROW + SPRITE / 2 + PAD;
   var originX = boardW / 2;   // x of column 0
@@ -78,12 +79,14 @@
     fun.className = "funnel " + f[0];
     fun.textContent = f[2];
     fun.style.left = spotX(f[1]) + "px";
-    fun.style.top = (spotY(0) - SPRITE / 2 - 34) + "px";
+    fun.style.top = (spotY(0) - 85) + "px";
     boardEl.appendChild(fun);
   });
 
+  var lockedEls = [];
   puzzle.preplaced_ramps.forEach(function (p) {
     var el = makeRamp(p.rolls, "locked");
+    lockedEls.push(el);
     placeRampEl(el, p.row, p.col);
     boardEl.appendChild(el);
     occupied[key(p.row, p.col)] = true;
@@ -115,11 +118,13 @@
     boardEl.appendChild(el);
     mine[key(row, col)] = el;
     occupied[key(row, col)] = true;
+    changed();
     el.addEventListener("pointerdown", function (e) {
       // pick it up: it leaves the board and is carried until dropped
       delete mine[key(row, col)];
       delete occupied[key(row, col)];
       boardEl.removeChild(el);
+      changed();
       refreshTray();
       startDrag(e, lean, null);
     });
@@ -194,6 +199,23 @@
     finishDrag();
     refreshTray();
   }
+
+  // ---- share the board with the marble code (js/marbles.js) ----
+  var listeners = [];
+  function changed() { listeners.forEach(function (f) { f(); }); }
+  function getRamps() {
+    var list = puzzle.preplaced_ramps.map(function (p, i) { return { row: p.row, col: p.col, rolls: p.rolls, el: lockedEls[i] }; });
+    Object.keys(mine).forEach(function (k) {
+      var rc = k.split(",");
+      list.push({ row: +rc[0], col: +rc[1], rolls: mine[k].getAttribute("data-lean"), el: mine[k] });
+    });
+    return list;
+  }
+  window.BOARD = {
+    el: boardEl, puzzle: puzzle, width: boardW, height: boardH, col: COL, row: ROW,
+    spotX: spotX, spotY: spotY, getRamps: getRamps, K: K, originX: originX, originY: originY,
+    onChange: function (f) { listeners.push(f); }
+  };
 
   refreshTray();
 })();

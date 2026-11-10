@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Marble Puzzles</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
   <main>
@@ -22,6 +22,13 @@
           <div class="tray-slot"><div class="ramp tray-ramp" data-lean="right" role="img" aria-label="Ramp that rolls marbles right"></div></div>
         </div>
         <p class="hint">Drag a ramp onto the board. Drag a ramp you placed back to the tray (or off the board) to take it away.</p>
+
+        <div id="controls">
+          <button id="drop-blue"></button>
+          <button id="drop-red"></button>
+          <button id="reset">Reset marbles</button>
+        </div>
+        <p id="tally"></p>
       </aside>
     </div>
   </main>
@@ -32,7 +39,9 @@
     Non-commercial.
   </footer>
 
-  <script src="data/puzzles.js"></script>
-  <script src="js/board.js"></script>
+  <script src="data/puzzles.js?v=4"></script>
+  <script src="js/vendor/matter.min.js?v=4"></script>
+  <script src="js/board.js?v=4"></script>
+  <script src="js/marbles.js?v=4"></script>
 </body>
 </html>
