@@ -7,5 +7,5 @@
 - **Which ttsim parts to keep or drop.** To be decided together, one by one.
 - **Adapt ttsim or write something new?** Undecided.
 - **How many puzzles?** Six for now; may change.
-- **Sharing.** The puzzles come from UpperStory's guide. Check what we're
-  allowed to publish before making the repo public.
+- **Sharing.** Settled: UpperStory's guide is free for non-commercial use
+  with credit. Give credit to UpperStory and ttsim in the game and README.
