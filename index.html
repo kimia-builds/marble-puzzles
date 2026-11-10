@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Marble Puzzles</title>
-  <link rel="stylesheet" href="css/style.css?v=8">
+  <link rel="stylesheet" href="css/style.css?v=21">
 </head>
 <body>
   <main>
@@ -16,13 +16,14 @@
       <div id="board" aria-label="Puzzle board"></div>
 
       <aside id="tray-panel">
-        <h2>Your ramps</h2>
+        <h2>Your parts</h2>
         <p id="tray-count"></p>
         <div id="tray">
-          <div class="tray-slot"><div class="ramp tray-ramp" data-lean="left" role="img" aria-label="Ramp that rolls marbles left"></div></div>
-          <div class="tray-slot"><div class="ramp tray-ramp" data-lean="right" role="img" aria-label="Ramp that rolls marbles right"></div></div>
+          <div class="tray-slot"><div class="ramp tray-ramp" data-kind="ramp" data-lean="left" role="img" aria-label="Ramp that rolls marbles left"></div></div>
+          <div class="tray-slot"><div class="ramp tray-ramp" data-kind="ramp" data-lean="right" role="img" aria-label="Ramp that rolls marbles right"></div></div>
+          <div class="tray-slot"><div class="ramp tray-ramp" data-kind="crossover" data-lean="none" role="img" aria-label="Crossover: marbles pass straight across it"></div></div>
         </div>
-        <p class="hint">Drag a ramp onto the board. Drag a ramp you placed back to the tray (or off the board) to take it away.</p>
+        <p class="hint">Drag a part onto the board. Drag a part you placed back to the tray (or off the board) to take it away.</p>
 
         <div id="controls">
           <button id="start">Start</button>
@@ -40,9 +41,9 @@
     Non-commercial.
   </footer>
 
-  <script src="data/puzzles.js?v=8"></script>
-  <script src="js/vendor/matter.min.js?v=8"></script>
-  <script src="js/board.js?v=8"></script>
-  <script src="js/marbles.js?v=8"></script>
+  <script src="data/puzzles.js?v=21"></script>
+  <script src="js/vendor/matter.min.js?v=21"></script>
+  <script src="js/board.js?v=21"></script>
+  <script src="js/marbles.js?v=21"></script>
 </body>
 </html>

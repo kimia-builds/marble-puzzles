@@ -9,10 +9,13 @@
   var K = SPRITE * 1.5 / 96;  // ttsim draws its 64-unit parts in 96px pictures
   var COL = 68 * K;           // one column step (ttsim spacing is 68 units, same for rows)
   var ROW = 68 * K;           // one row step
-  var MAX_COL = 4;            // board runs from column -4 to +4
+  var MAX_COL = 5;            // board runs from column -5 to +5
   var SNAP = 44;              // how close a drop must be to a spot to count
   var SHEET = 1040, FRAME = 96;
-  var RAMP_FRAME = { x: 108, y: 732 };   // "Ramp-m" in ttsim's parts.json
+  var FRAMES = {                          // "Ramp-m" and "Crossover-m" in ttsim's parts.json
+    ramp: { x: 108, y: 732 },
+    crossover: { x: 108, y: 628 }
+  };
 
   var allPuzzles = window.PUZZLES.puzzles;
   var wanted = parseInt(new URLSearchParams(window.location.search).get("puzzle"), 10);
@@ -48,7 +51,9 @@
   boardEl.style.height = boardH + "px";
 
   document.getElementById("puzzle-name").textContent = puzzle.name;
-  document.getElementById("goal").textContent = puzzle.goal_text;
+  document.getElementById("start").className = puzzle.start_colour || "blue";
+  document.getElementById("start").textContent = "Start (lets out a " + (puzzle.start_colour || "blue") + " marble)";
+  document.getElementById("goal").textContent = (puzzle.practice ? "Practice: try anything, there's no winning or losing here. " : "") + puzzle.goal_text;
 
   function spotX(col) { return originX + col * COL; }
   function spotY(row) { return originY + row * ROW; }
@@ -57,19 +62,23 @@
   }
   function key(row, col) { return row + "," + col; }
 
-  function sprite(el, size) {
+  function sprite(el, size, kind) {
+    var frame = FRAMES[kind || "ramp"];
     var s = size / FRAME;
     el.style.width = size + "px";
     el.style.height = size + "px";
     el.style.backgroundSize = (SHEET * s) + "px " + (SHEET * s) + "px";
-    el.style.backgroundPosition = (-RAMP_FRAME.x * s) + "px " + (-RAMP_FRAME.y * s) + "px";
+    el.style.backgroundPosition = (-frame.x * s) + "px " + (-frame.y * s) + "px";
   }
 
-  function makeRamp(lean, extraClass) {
+  // kind is "ramp" (with a lean) or "crossover" (no lean; marbles pass straight across)
+  function makeRamp(lean, extraClass, kind) {
+    kind = kind || "ramp";
     var el = document.createElement("div");
-    el.className = "ramp " + (extraClass || "");
-    el.setAttribute("data-lean", lean);
-    sprite(el, SPRITE);
+    el.className = "ramp " + kind + " " + (extraClass || "");
+    el.setAttribute("data-lean", lean || "none");
+    el.setAttribute("data-kind", kind);
+    sprite(el, SPRITE, kind);
     return el;
   }
 
@@ -122,29 +131,50 @@
     boardEl.appendChild(el);
     occupied[key(p.row, p.col)] = true;
   });
+  var lockedCrossovers = puzzle.preplaced_crossovers || [];
+  lockedCrossovers.forEach(function (p) {
+    var el = makeRamp("none", "locked", "crossover");
+    placeRampEl(el, p.row, p.col);
+    boardEl.appendChild(el);
+    occupied[key(p.row, p.col)] = true;
+  });
 
   // ---- the player's ramps ----
-  var mine = {};              // "row,col" -> element
-  var allowed = puzzle.ramps_to_add;
+  var mine = {};              // "row,col" -> element (ramps and crossovers I placed)
+  var allowed = { ramp: puzzle.ramps_to_add || 0, crossover: puzzle.crossovers_to_add || 0 };
 
-  function remaining() { return allowed - Object.keys(mine).length; }
+  function kindOf(el) { return el.getAttribute("data-kind"); }
+  function placedCount(kind) {
+    return Object.keys(mine).filter(function (k) { return kindOf(mine[k]) === kind; }).length;
+  }
+  function remaining(kind) { return allowed[kind] - placedCount(kind); }
 
   function refreshTray() {
-    var n = remaining();
-    countEl.textContent = n === 0 ? "All ramps placed" : n + (n === 1 ? " ramp" : " ramps") + " left to place";
-    trayEl.classList.toggle("empty", n === 0);
+    var left = [], total = 0;
+    ["ramp", "crossover"].forEach(function (kind) {
+      var n = remaining(kind);
+      total += n;
+      if (allowed[kind] > 0) left.push(n + (kind === "ramp" ? (n === 1 ? " ramp" : " ramps") : (n === 1 ? " crossover" : " crossovers")));
+      Array.prototype.forEach.call(trayEl.querySelectorAll('.tray-ramp[data-kind="' + kind + '"]'), function (el) {
+        el.parentNode.classList.toggle("empty", n === 0);
+        el.parentNode.style.display = allowed[kind] > 0 ? "" : "none";
+      });
+    });
+    countEl.textContent = total === 0 ? "All parts placed" : left.join(", ") + " left to place";
   }
 
   Array.prototype.forEach.call(trayEl.querySelectorAll(".tray-ramp"), function (el) {
-    sprite(el, SPRITE);
+    var kind = el.getAttribute("data-kind");
+    sprite(el, SPRITE, kind);
     el.addEventListener("pointerdown", function (e) {
-      if (remaining() === 0) return;
-      startDrag(e, el.getAttribute("data-lean"), null);
+      if (remaining(kind) === 0) return;
+      startDrag(e, el.getAttribute("data-lean"), kind);
     });
   });
 
-  function addMine(row, col, lean) {
-    var el = makeRamp(lean, "mine");
+  function addMine(row, col, lean, kind) {
+    kind = kind || "ramp";
+    var el = makeRamp(lean, "mine", kind);
     placeRampEl(el, row, col);
     boardEl.appendChild(el);
     mine[key(row, col)] = el;
@@ -157,17 +187,17 @@
       boardEl.removeChild(el);
       changed();
       refreshTray();
-      startDrag(e, lean, null);
+      startDrag(e, lean, kind);
     });
   }
 
   // ---- dragging ----
   var drag = null;
 
-  function startDrag(e, lean) {
+  function startDrag(e, lean, kind) {
     if (drag) return;
     e.preventDefault();
-    var ghost = makeRamp(lean, "ghost");
+    var ghost = makeRamp(lean, "ghost", kind);
     document.body.appendChild(ghost);
 
     var spots = [];
@@ -185,7 +215,7 @@
       }
     }
 
-    drag = { lean: lean, ghost: ghost, spots: spots, target: null, id: e.pointerId };
+    drag = { lean: lean, kind: kind, ghost: ghost, spots: spots, target: null, id: e.pointerId };
     moveDrag(e);
     document.addEventListener("pointermove", moveDrag);
     document.addEventListener("pointerup", endDrag);
@@ -222,7 +252,7 @@
 
   function endDrag() {
     var d = finishDrag();
-    if (d.target) addMine(d.target.row, d.target.col, d.lean);
+    if (d.target) addMine(d.target.row, d.target.col, d.lean, d.kind);
     refreshTray();
   }
 
@@ -237,15 +267,31 @@
   function getRamps() {
     var list = puzzle.preplaced_ramps.map(function (p, i) { return { row: p.row, col: p.col, rolls: p.rolls, el: lockedEls[i] }; });
     Object.keys(mine).forEach(function (k) {
+      if (kindOf(mine[k]) !== "ramp") return;
       var rc = k.split(",");
       list.push({ row: +rc[0], col: +rc[1], rolls: mine[k].getAttribute("data-lean"), el: mine[k] });
     });
     return list;
   }
-  // for testing only (not used by the page): put ramps on the board the way a player would
+  function getCrossovers() {
+    var list = lockedCrossovers.map(function (p) { return { row: p.row, col: p.col }; });
+    Object.keys(mine).forEach(function (k) {
+      if (kindOf(mine[k]) !== "crossover") return;
+      var rc = k.split(",");
+      list.push({ row: +rc[0], col: +rc[1] });
+    });
+    return list;
+  }
+  // for testing only (not used by the page): put parts on the board the way a player would
   function placeRamp(row, col, lean) {
-    if (!isSpot(row, col) || occupied[key(row, col)] || remaining() === 0) return false;
-    addMine(row, col, lean);
+    if (!isSpot(row, col) || occupied[key(row, col)] || remaining("ramp") === 0) return false;
+    addMine(row, col, lean, "ramp");
+    refreshTray();
+    return true;
+  }
+  function placeCrossover(row, col) {
+    if (!isSpot(row, col) || occupied[key(row, col)] || remaining("crossover") === 0) return false;
+    addMine(row, col, "none", "crossover");
     refreshTray();
     return true;
   }
@@ -257,11 +303,11 @@
   function getMine() {
     return Object.keys(mine).map(function (k) {
       var rc = k.split(",");
-      return { row: +rc[0], col: +rc[1], rolls: mine[k].getAttribute("data-lean") };
+      return { row: +rc[0], col: +rc[1], kind: kindOf(mine[k]), rolls: mine[k].getAttribute("data-lean") };
     });
   }
   window.BOARD = {
-    getMine: getMine, placeRamp: placeRamp, clearMine: clearMine,
+    getMine: getMine, placeRamp: placeRamp, placeCrossover: placeCrossover, getCrossovers: getCrossovers, clearMine: clearMine,
     el: boardEl, puzzle: puzzle, width: boardW, height: boardH, col: COL, row: ROW,
     spotX: spotX, spotY: spotY, getRamps: getRamps, K: K, originX: originX, originY: originY,
     leverY: leverY, levers: leverEls, funnels: funnelEls,

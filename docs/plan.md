@@ -9,7 +9,9 @@ puzzles with story/code pages between them.
 
 A fixed sequence of pages:
 
-story 1 → puzzle 1 → congrats + code box → story 2 → puzzle 2 → congrats + code box → … → puzzle 6 → final page
+story 1 → puzzle → congrats + code box → story 2 → … → stage 6 → final page
+
+(Six stages = Challenges 1-6. Practice puzzles are free play with no solved state, so they never unlock a code box; how a stage moves on from its practice puzzle is decided in session 5.)
 
 - A person cannot reach a later page without typing the right code.
 - Each puzzle page: locked board, pre-placed ramps, a tray of ramps to drag
@@ -21,8 +23,7 @@ story 1 → puzzle 1 → congrats + code box → story 2 → puzzle 2 → congra
 
 Success needs BOTH of these, every time:
 
-1. **Correct marble output**, by the puzzle's `goal_rule`: blue only (puzzles 1-3); the blue
-   marble sets off the red one (4); one blue then all the red (5-6).
+1. **Correct marble output**, by the puzzle's `goal_rule`: blue only (challenges 1-2); one blue then all the red (3); one red then all the blue (4); alternating blue, red, blue... (5-6). Practice puzzles have no rule: they just report what came out.
 2. **Correct ramp setup**: the ramps the player placed are exactly the guide's solution
    (`guide_solution_ramps`): every ramp placed, in the right spot, leaning the right way, none extra.
 
@@ -56,7 +57,7 @@ Keep each session to its one job; start a fresh session for the next.
 | 6 | **Polish and publish.** Tablet touch check, small-screen sanity, credits visible, publish. | Live link works on a tablet. | Nothing. |
 
 **Status:** Sessions 1, 2, 3 (3a marbles and ramps, 3b levers and win check) and 4 are done.
-Session 4: the page can show any of the six puzzles (`index.html?puzzle=N`, with a temporary row of
+Since then (after Kimia's playtesting): levers span the whole bottom and are blue/red; practice puzzles are free play; runs use 3 marbles instead of 8; the crossover part, Challenges 4-6 and practice 5/6 were added (11 puzzles, 6 stages). Session 4: the page can show any of the puzzles (`index.html?puzzle=N`, with a temporary row of
 number links that Session 5 replaces). Each puzzle uses its own win rule from `data/puzzles.js`.
 
 Sessions 2 and 3 are the biggest. If session 3 runs long, split it at "marbles

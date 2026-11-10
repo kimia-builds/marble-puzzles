@@ -21,10 +21,11 @@ For each puzzle:
 Deliberately left out: speed control, board size, zoom, saving/loading, and
 any part that hasn't been introduced yet at that point in the guide.
 
-## The six puzzles (subject to change)
+## The puzzles
 
-The first six, up to and including Practice Puzzle A for Challenge 4. See
-[docs/exercises.md](docs/exercises.md).
+Eleven puzzles in six stages (Challenges 1 to 6, each preceded by a free-play
+practice puzzle where the guide has one). The crossover is introduced at
+Challenge 5. See [docs/exercises.md](docs/exercises.md).
 
 ## Later idea: the reward page
 

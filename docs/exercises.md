@@ -1,27 +1,43 @@
-# The six puzzles
+# The eleven puzzles (six stages)
 
 Taken from the Turing Tumble Practice Guide (version 1.0, 2021), in book
 order. Page numbers are the guide's own printed page numbers.
-Every one of these uses only **ramps**, two ball colours (blue, red), and the
-two levers at the bottom of the board.
+The game has **six stages**, one per Challenge (1 to 6). The practice puzzles
+before a challenge are **free play: no winning or losing, no setup check**.
+Every puzzle uses two ball colours (blue, red) and the two levers at the
+bottom of the board. Ramps are the first part; the **crossover** is introduced
+at Challenge 5 (that is where the guide introduces it too).
 
-| # | Name in the guide | Guide page | Goal | Ramps to add |
-|---|---|---|---|---|
-| 1 | Challenge 1: Gravity | 1 | Make all of the blue balls (and only the blue balls) reach the end. | 4 |
-| 2 | Practice Puzzle A for Challenge 2 | 3 | Same goal as above. | 3 |
-| 3 | Challenge 2: Re-entry | 5 | Same goal. Balls have to be led back over to the left lever. | 5 |
-| 4 | Practice Puzzle A for Challenge 3 | 7 | Release the blue ball, which then releases the red ball. (1 blue, 1 red ball.) | 7 |
-| 5 | Challenge 3: Ignition | 9 | Release one blue ball, then all of the red balls. | 6 |
-| 6 | Practice Puzzle A for Challenge 4 | 11 | Release one blue ball, then all of the red balls. | 6 |
+| # | Stage | Name in the guide | Guide page | Goal | Parts to add |
+|---|---|---|---|---|---|
+| 1 | 1 | Challenge 1: Gravity | 1 | All the blue balls (and only blue) reach the end. | 4 ramps |
+| 2 | 2 | Practice Puzzle A for Challenge 2 (practice) | 3 | (free play) | 3 ramps |
+| 3 | 2 | Challenge 2: Re-entry | 5 | Same goal. | 5 ramps |
+| 4 | 3 | Practice Puzzle A for Challenge 3 (practice) | 7 | (free play) | 7 ramps |
+| 5 | 3 | Challenge 3: Ignition | 9 | One blue ball, then all the red. | 6 ramps |
+| 6 | 4 | Practice Puzzle A for Challenge 4 (practice) | 11 | (free play) | 6 ramps |
+| 7 | 4 | Challenge 4: Fusion | 15 | One RED ball (Start is on the red side), then all the blue. | 12 ramps |
+| 8 | 5 | Practice Puzzle A for Challenge 5 (practice) | 17 | (free play) | 1 crossover |
+| 9 | 5 | Challenge 5: Entropy | 19 | Pattern blue, red, blue, red... | 9 ramps |
+| 10 | 6 | Practice Puzzle A for Challenge 6 (practice) | 21 | (free play) | 3 crossovers |
+| 11 | 6 | Challenge 6: Total Internal Reflection | 23 | Pattern blue, red, blue, red... | 2 ramps + 5 crossovers |
 
-Each puzzle starts with 8 blue and 8 red balls, except puzzle 4 (1 and 1).
+Marble counts: the guide uses 8 blue and 8 red; we use **3 and 3** (waiting for
+8 was too tedious), **2 and 2** for puzzles 10 and 11 (crossovers are slow),
+and 1 and 1 for puzzle 4 (as in the guide).
 
-Puzzle 4: the guide says 8 ramps are available, but its own solution uses
-only 7. Decided with Kimia: give 7.
+Ramp counts: puzzle 4 (guide says 8, solution uses 7) and Challenge 4 (guide
+says 13, solution uses 12): decided with Kimia to give exactly what the
+solution uses.
+
+The board is 11 columns wide (-5 to +5): Challenge 4's solution uses the
+outermost columns.
 
 ## Done
 
-Pre-placed ramps and the guide's solution for each puzzle are in
-`data/puzzles.js`, read from the guide's PDF and checked by Kimia against
-the guide's pictures. The solutions are for checking our version only, never
-shown to the person.
+Pre-placed parts and the guide's solution for each puzzle are in
+`data/puzzles.js`, read from the guide's PDF (puzzles 7-11 by laying a
+row/column grid over the guide's pictures and zooming in on each ramp).
+The solutions are for checking our version only, never shown to the person.
+Every puzzle was run with its guide solution in the simulator, and the
+challenges also fail correctly with a wrong setup.

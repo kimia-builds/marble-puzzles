@@ -18,7 +18,7 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-main { max-width: 900px; margin: 0 auto; padding: 16px; }
+main { max-width: 1000px; margin: 0 auto; padding: 16px; }
 h1 { font-size: 1.4rem; margin: 8px 0 4px; }
 h2 { font-size: 1rem; margin: 0 0 4px; }
 #goal { margin: 0 0 12px; }
@@ -77,6 +77,7 @@ h2 { font-size: 1rem; margin: 0 0 4px; }
 }
 /* ttsim's ramp picture slopes down to the right, so left-rolling ramps are mirrored */
 .ramp[data-lean="left"] { transform: scaleX(-1); }
+.ramp[data-kind="crossover"] { transform: none; }
 
 .ramp.locked { filter: saturate(0.55) brightness(0.9); }
 .ramp.mine { pointer-events: auto; cursor: grab; touch-action: none; }
@@ -108,9 +109,9 @@ h2 { font-size: 1rem; margin: 0 0 4px; }
   border: 2px dashed var(--board-edge);
   border-radius: 8px;
 }
-#tray.empty .tray-slot { opacity: 0.35; }
+.tray-slot.empty { opacity: 0.35; }
 .tray-ramp { cursor: grab; pointer-events: auto; touch-action: none; left: 10px; top: 10px; }
-#tray.empty .tray-ramp { cursor: default; pointer-events: none; }
+.tray-slot.empty .tray-ramp { cursor: default; pointer-events: none; }
 .hint { font-size: 0.85rem; color: #666; margin-bottom: 0; }
 
 /* the picture that follows the finger or mouse while dragging */
@@ -145,6 +146,7 @@ footer {
 }
 #controls button:disabled { opacity: .4; cursor: default; }
 #controls #start { background: var(--blue); border-color: var(--blue); color: #fff; }
+#controls #start.red { background: var(--red); border-color: var(--red); }
 #result { margin: 12px 0 0; padding: 0; font-weight: 600; }
 #result.win { padding: 10px 12px; border-radius: 8px; background: #dff3e1; color: #1f6b2c; }
 #result.lose { padding: 10px 12px; border-radius: 8px; background: #fbe4e2; color: #9b2c26; }
@@ -152,19 +154,20 @@ footer {
 /* ---- the two levers at the bottom ---- */
 .lever {
   position: absolute;
-  width: 168px; height: 44px;
+  height: 44px;
   box-sizing: border-box;
   padding: 4px 6px;
   border-radius: 0 0 10px 10px;
-  border: 2px solid var(--board-edge);
-  background: #ece6d6;
+  border: 2px solid;
+  color: #fff;
   font-size: 11px; line-height: 1.25; text-align: center;
-  transition: background .15s, transform .15s;
+  transition: filter .15s, transform .15s;
 }
 .lever strong { display: block; font-size: 12px; }
-.lever.left { left: 50%; margin-left: -176px; }
-.lever.right { left: 50%; margin-left: 8px; }
-.lever.hit { background: #ffe9a8; transform: translateY(5px); }
+/* each lever covers its whole half of the board, so every marble that falls hits one */
+.lever.left { left: 4px; right: calc(50% + 2px); background: var(--blue); border-color: #1f4fa8; }
+.lever.right { left: calc(50% + 2px); right: 4px; background: var(--red); border-color: #a62e28; }
+.lever.hit { filter: brightness(1.35); transform: translateY(5px); }
 #tally { margin: 10px 0 0; font-size: .9rem; }
 
 /* temporary puzzle picker */
