@@ -190,18 +190,58 @@
     quiet = 0;
   }
 
-  // when nothing is left rolling, decide how the run went (puzzle goal rule: "blue_only")
+  // The three win rules (each puzzle's "goal_rule" in data/puzzles.js). Each looks at how many
+  // marbles of each colour got out and reached a lever, and returns { ok, text }.
+  // Start always lets out one blue marble; the left lever lets out another blue, the right one a red.
+  var RULES = {
+    // puzzles 1-3: every blue marble gets to the end and no red marble is ever let out
+    blue_only: function (blueOut, redOut) {
+      if (redOut > 0) return { ok: false, text: "A red marble got out. A marble hit the right lever, and that lets a red one go. Press Reset and try a different set of ramps." };
+      if (blueOut < total.blue) return { ok: false, text: "The run stopped after " + blueOut + " of the " + total.blue + " blue marbles. Press Reset and try again." };
+      return { ok: true, text: "Solved! All " + total.blue + " blue marbles made it, and no red ones got out." };
+    },
+    // puzzle 4: the blue marble sets off the red marble
+    blue_then_red: function (blueOut, redOut) {
+      if (redOut === 0) return { ok: false, text: "The blue marble finished its run without setting off the red one. Press Reset and try again." };
+      return { ok: true, text: "Solved! The blue marble set off the red marble." };
+    },
+    // puzzles 5-6: one blue marble starts things off, then every red marble comes out
+    one_blue_then_all_red: function (blueOut, redOut) {
+      if (blueOut > 1) return { ok: false, text: "A second blue marble got out. A marble hit the left lever, and that lets another blue one go. Only the first blue marble should start things off. Press Reset and try again." };
+      if (redOut < total.red) return { ok: false, text: "The blue marble started things off, but only " + redOut + " of the " + total.red + " red marbles came out. Press Reset and try again." };
+      return { ok: true, text: "Solved! One blue marble started it and all " + total.red + " red marbles followed." };
+    }
+  };
+
+  // Is the player's ramp setup the guide's? Same spots, same lean, nothing missing, nothing extra.
+  // Returns "ok", "wrongway" (right spots but a ramp leans the wrong way) or "wrong" (anything else).
+  function setupCheck() {
+    var want = {}, wantCount = 0;
+    (B.puzzle.guide_solution_ramps || []).forEach(function (g) { want[g.row + "," + g.col] = g.rolls; wantCount++; });
+    var mine = B.getMine(), n = 0, wrongWay = 0, bad = 0;
+    mine.forEach(function (r) {
+      n++;
+      var w = want[r.row + "," + r.col];
+      if (!w) bad++; else if (w !== r.rolls) wrongWay++;
+    });
+    if (bad === 0 && wrongWay === 0 && n === wantCount) return "ok";
+    return bad === 0 && n === wantCount ? "wrongway" : "wrong";
+  }
+
+  // when nothing is left rolling, decide how the run went
   function judge() {
     finished = true;
-    var redOut = total.red - left.red;
-    if (left.blue === 0 && done.blue === total.blue && redOut === 0) {
-      say("Solved! All " + total.blue + " blue marbles made it, and no red ones got out.", "win");
-    } else if (redOut > 0) {
-      say("A red marble got out. A marble hit the right lever, and that lets a red one go. Press Reset and try a different set of ramps.", "lose");
-    } else {
-      say("The run stopped before all the blue marbles were out. Press Reset and try again.", "lose");
+    var rule = RULES[B.puzzle.goal_rule];
+    var verdict = rule(total.blue - left.blue, total.red - left.red);
+    // Success needs BOTH the right marble result AND the right ramp setup (the guide's pattern).
+    // Marbles can sometimes reach the goal with a different or incomplete setup, which doesn't count.
+    if (verdict.ok) {
+      var setup = setupCheck();
+      if (setup === "wrongway") verdict = { ok: false, text: "The marbles got there, but a ramp is leaning the wrong way. The way each ramp leans matters. Press Reset and try again." };
+      else if (setup === "wrong") verdict = { ok: false, text: "The marbles got there, but this isn't the setup the puzzle needs: every ramp has to be placed, in the right spot. Press Reset and try again." };
     }
-    window.MARBLES.solved = left.blue === 0 && done.blue === total.blue && redOut === 0;
+    say(verdict.text, verdict.ok ? "win" : "lose");
+    window.MARBLES.solved = verdict.ok;
   }
 
   startBtn.addEventListener("click", start);

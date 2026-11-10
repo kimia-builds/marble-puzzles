@@ -29,7 +29,7 @@ The first six, up to and including Practice Puzzle A for Challenge 4. See
 ## Later idea: the reward page
 
 When the person has built the special pattern *and* watched the marbles run
-correctly, a congratulatory page is revealed. Not designed yet; see
+correctly (both are required; see "What counts as solved" in docs/plan.md), a congratulatory page is revealed. Not designed yet; see
 [docs/open-questions.md](docs/open-questions.md).
 
 ## Where things come from

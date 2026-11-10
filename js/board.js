@@ -1,5 +1,6 @@
-// Session 2: the locked board, the ramp tray, and drag-to-place.
-// No marbles yet. Puzzle 1 only.
+// The locked board, the ramp tray, and drag-to-place.
+// Which puzzle to show comes from the address: index.html?puzzle=3 (default 1).
+// Session 5 (the journey) will replace this with proper page-to-page progress.
 (function () {
   "use strict";
 
@@ -13,7 +14,22 @@
   var SHEET = 1040, FRAME = 96;
   var RAMP_FRAME = { x: 108, y: 732 };   // "Ramp-m" in ttsim's parts.json
 
-  var puzzle = window.PUZZLES.puzzles[0];
+  var allPuzzles = window.PUZZLES.puzzles;
+  var wanted = parseInt(new URLSearchParams(window.location.search).get("puzzle"), 10);
+  if (!(wanted >= 1 && wanted <= allPuzzles.length)) wanted = 1;
+  var puzzle = allPuzzles[wanted - 1];
+
+  // temporary "jump to puzzle" links, for checking each puzzle (the journey replaces these)
+  var pickerEl = document.getElementById("picker");
+  allPuzzles.forEach(function (p, i) {
+    var a = document.createElement("a");
+    a.href = "?puzzle=" + (i + 1);
+    a.textContent = i + 1;
+    a.title = p.name;
+    if (i + 1 === wanted) a.className = "current";
+    pickerEl.appendChild(a);
+  });
+  document.title = "Marble Puzzles: " + puzzle.name;
   var lastRow = 10;           // bottom row of spots
   var boardEl = document.getElementById("board");
   var trayEl = document.getElementById("tray");
@@ -226,7 +242,26 @@
     });
     return list;
   }
+  // for testing only (not used by the page): put ramps on the board the way a player would
+  function placeRamp(row, col, lean) {
+    if (!isSpot(row, col) || occupied[key(row, col)] || remaining() === 0) return false;
+    addMine(row, col, lean);
+    refreshTray();
+    return true;
+  }
+  function clearMine() {
+    Object.keys(mine).forEach(function (k) { boardEl.removeChild(mine[k]); delete mine[k]; delete occupied[k]; });
+    changed();
+    refreshTray();
+  }
+  function getMine() {
+    return Object.keys(mine).map(function (k) {
+      var rc = k.split(",");
+      return { row: +rc[0], col: +rc[1], rolls: mine[k].getAttribute("data-lean") };
+    });
+  }
   window.BOARD = {
+    getMine: getMine, placeRamp: placeRamp, clearMine: clearMine,
     el: boardEl, puzzle: puzzle, width: boardW, height: boardH, col: COL, row: ROW,
     spotX: spotX, spotY: spotY, getRamps: getRamps, K: K, originX: originX, originY: originY,
     leverY: leverY, levers: leverEls, funnels: funnelEls,

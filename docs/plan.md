@@ -17,6 +17,19 @@ story 1 → puzzle 1 → congrats + code box → story 2 → puzzle 2 → congra
 - The page itself checks the puzzle goal. Only a genuinely solved run unlocks
   that round's code box. (This is the "watched it run correctly" check.)
 
+## What counts as "solved" (decided with Kimia)
+
+Success needs BOTH of these, every time:
+
+1. **Correct marble output**, by the puzzle's `goal_rule`: blue only (puzzles 1-3); the blue
+   marble sets off the red one (4); one blue then all the red (5-6).
+2. **Correct ramp setup**: the ramps the player placed are exactly the guide's solution
+   (`guide_solution_ramps`): every ramp placed, in the right spot, leaning the right way, none extra.
+
+Marbles reaching the goal with any other setup is NOT a solve. Direction is part of the setup.
+Checked by `setupCheck()` in `js/marbles.js`. This is the "built the pattern *and* watched it run
+correctly" idea from the README, and it is what unlocks a round's code box.
+
 ## Choices I made so you don't have to (say if you disagree)
 
 - Plain web page: HTML, CSS and JavaScript, no build step, so it opens
@@ -41,6 +54,10 @@ Keep each session to its one job; start a fresh session for the next.
 | 4 | **Goal checking and all six puzzles.** Per-puzzle win rules (blue only; blue then red; one blue then all red). Load puzzles 2–6. Check each against the guide's own solution. | All six solve with the guide's solution and fail with a wrong one. | None. |
 | 5 | **The journey.** Story pages, congrats pages, code boxes, locking, remembered progress, final page. Placeholder text and codes. | You can only get through by solving and entering codes, start to finish. | Story text and codes (can arrive later; placeholders until then). |
 | 6 | **Polish and publish.** Tablet touch check, small-screen sanity, credits visible, publish. | Live link works on a tablet. | Nothing. |
+
+**Status:** Sessions 1, 2, 3 (3a marbles and ramps, 3b levers and win check) and 4 are done.
+Session 4: the page can show any of the six puzzles (`index.html?puzzle=N`, with a temporary row of
+number links that Session 5 replaces). Each puzzle uses its own win rule from `data/puzzles.js`.
 
 Sessions 2 and 3 are the biggest. If session 3 runs long, split it at "marbles
 fall" versus "levers and win check" rather than letting it sprawl.
