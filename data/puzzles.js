@@ -1,4 +1,5 @@
-{
+// Puzzle data (kept as a .js file so the page opens straight from the folder).
+window.PUZZLES = {
  "_about": "Read from the vector drawings in the Turing Tumble Practice Guide 1.0 (UpperStory). Grid: row 0 = top row of ramps just under the ball funnels, rows count down; col 0 = centre column, negative = left, positive = right; one col step = half a peg gap (row+col is always even). 'rolls' = the direction a ball rolls off the ramp. guide_solution_ramps are for checking our version only, never shown to the player.",
  "puzzles": [
   {
@@ -469,4 +470,4 @@
    "ramps_to_add": 6
   }
  ]
-}
+};

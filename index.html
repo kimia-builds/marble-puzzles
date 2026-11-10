@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marble Puzzles</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main>
+    <h1 id="puzzle-name"></h1>
+    <p id="goal"></p>
+
+    <div class="play-area">
+      <div id="board" aria-label="Puzzle board"></div>
+
+      <aside id="tray-panel">
+        <h2>Your ramps</h2>
+        <p id="tray-count"></p>
+        <div id="tray">
+          <div class="tray-slot"><div class="ramp tray-ramp" data-lean="left" role="img" aria-label="Ramp that rolls marbles left"></div></div>
+          <div class="tray-slot"><div class="ramp tray-ramp" data-lean="right" role="img" aria-label="Ramp that rolls marbles right"></div></div>
+        </div>
+        <p class="hint">Drag a ramp onto the board. Drag a ramp you placed back to the tray (or off the board) to take it away.</p>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    Puzzles from the <a href="https://upperstory.com/turingtumble/assets/practice-guide-2021.pdf">Turing Tumble Practice Guide</a> by UpperStory.
+    Pictures from <a href="https://github.com/jessecrossen/ttsim">ttsim</a> by Jesse Crossen.
+    Non-commercial.
+  </footer>
+
+  <script src="data/puzzles.js"></script>
+  <script src="js/board.js"></script>
+</body>
+</html>

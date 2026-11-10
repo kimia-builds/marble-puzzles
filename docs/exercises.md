@@ -22,6 +22,6 @@ only 7. Decided with Kimia: give 7.
 ## Done
 
 Pre-placed ramps and the guide's solution for each puzzle are in
-`data/puzzles.json`, read from the guide's PDF and checked by Kimia against
+`data/puzzles.js`, read from the guide's PDF and checked by Kimia against
 the guide's pictures. The solutions are for checking our version only, never
 shown to the person.

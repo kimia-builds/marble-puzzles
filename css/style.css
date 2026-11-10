@@ -1,0 +1,124 @@
+:root {
+  --bg: #f4efe6;
+  --ink: #2b2b2b;
+  --board: #fbf8f1;
+  --board-edge: #b9ad94;
+  --peg: #8f846b;
+  --ok: #2f9e5b;
+  --blue: #2f6fe0;
+  --red: #d8423b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+h1 { font-size: 1.4rem; margin: 8px 0 4px; }
+h2 { font-size: 1rem; margin: 0 0 4px; }
+#goal { margin: 0 0 12px; }
+
+.play-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* ---- the board: locked, nothing on it can be moved, zoomed or selected ---- */
+#board {
+  position: relative;
+  background: var(--board);
+  border: 3px solid var(--board-edge);
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  flex: none;
+}
+
+.peg {
+  position: absolute;
+  width: 8px; height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: var(--peg);
+  pointer-events: none;
+  z-index: 2;   /* drawn on top of ramps so you can see which peg a ramp hangs on */
+}
+
+.funnel {
+  position: absolute;
+  width: 56px; height: 40px;
+  margin-left: -28px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 40px;
+  color: #fff;
+  clip-path: polygon(0 0, 100% 0, 70% 100%, 30% 100%);
+  pointer-events: none;
+}
+.funnel.blue { background: var(--blue); }
+.funnel.red { background: var(--red); }
+
+/* ---- ramps (picture comes from the ttsim sprite sheet) ---- */
+.ramp {
+  position: absolute;
+  background-image: url("../assets/parts.png");
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+/* ttsim's ramp picture slopes down to the right, so left-rolling ramps are mirrored */
+.ramp[data-lean="left"] { transform: scaleX(-1); }
+
+.ramp.locked { filter: saturate(0.55) brightness(0.9); }
+.ramp.mine { pointer-events: auto; cursor: grab; touch-action: none; }
+
+/* spots shown while dragging */
+.spot {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px dashed var(--ok);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.spot.near { opacity: 1; background: rgba(47, 158, 91, 0.18); border-style: solid; }
+
+/* ---- tray ---- */
+#tray-panel {
+  flex: 1 1 200px;
+  min-width: 200px;
+  background: #fff;
+  border: 2px solid var(--board-edge);
+  border-radius: 10px;
+  padding: 12px;
+}
+#tray-count { margin: 0 0 8px; font-weight: 600; }
+#tray { display: flex; gap: 12px; }
+.tray-slot {
+  position: relative;
+  width: 92px; height: 92px;
+  border: 2px dashed var(--board-edge);
+  border-radius: 8px;
+}
+#tray.empty .tray-slot { opacity: 0.35; }
+.tray-ramp { cursor: grab; pointer-events: auto; touch-action: none; left: 6px; top: 6px; }
+#tray.empty .tray-ramp { cursor: default; pointer-events: none; }
+.hint { font-size: 0.85rem; color: #666; margin-bottom: 0; }
+
+/* the picture that follows the finger or mouse while dragging */
+.ghost { position: fixed; z-index: 10; pointer-events: none; opacity: 0.9; }
+
+footer {
+  max-width: 760px;
+  margin: 16px auto 24px;
+  padding: 0 16px;
+  font-size: 0.8rem;
+  color: #666;
+}
