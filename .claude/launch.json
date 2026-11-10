@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "marble-puzzles",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "cd /Users/kimiashomefolder/Projects/marble-puzzles && python3 -m http.server ${PORT:-8791}"],
+      "port": 8791,
+      "autoPort": true
+    }
+  ]
+}

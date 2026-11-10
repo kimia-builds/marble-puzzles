@@ -22,7 +22,9 @@
   var PAD = 24;
   var TOP = 100;              // room for the funnels above row 0
   var boardW = 2 * MAX_COL * COL + SPRITE + 2 * PAD - 0;
-  var boardH = TOP + lastRow * ROW + SPRITE / 2 + PAD;
+  var LEVER_ZONE = 64;        // room under the last row for the two levers
+  var boardH = TOP + lastRow * ROW + SPRITE / 2 + PAD + LEVER_ZONE;
+  var leverY = TOP + lastRow * ROW + SPRITE / 2 + 8;   // top edge of the levers: a marble reaching this has "hit" one
   var originX = boardW / 2;   // x of column 0
   var originY = TOP;          // y of row 0
 
@@ -74,13 +76,26 @@
     }
   }
 
+  var funnelEls = {};
   [["blue", -2, puzzle.balls.blue], ["red", 2, puzzle.balls.red]].forEach(function (f) {
     var fun = document.createElement("div");
     fun.className = "funnel " + f[0];
     fun.textContent = f[2];
+    funnelEls[f[0]] = fun;
     fun.style.left = spotX(f[1]) + "px";
     fun.style.top = (spotY(0) - 85) + "px";
     boardEl.appendChild(fun);
+  });
+
+  // the two levers at the bottom: left lets the next blue marble out, right the next red
+  var leverEls = {};
+  [["left", "Left lever", "lets out the next blue marble"], ["right", "Right lever", "lets out the next red marble"]].forEach(function (l) {
+    var el = document.createElement("div");
+    el.className = "lever " + l[0];
+    el.innerHTML = "<strong>" + l[1] + "</strong><span>" + l[2] + "</span>";
+    el.style.top = leverY + "px";
+    boardEl.appendChild(el);
+    leverEls[l[0]] = el;
   });
 
   var lockedEls = [];
@@ -214,6 +229,7 @@
   window.BOARD = {
     el: boardEl, puzzle: puzzle, width: boardW, height: boardH, col: COL, row: ROW,
     spotX: spotX, spotY: spotY, getRamps: getRamps, K: K, originX: originX, originY: originY,
+    leverY: leverY, levers: leverEls, funnels: funnelEls,
     onChange: function (f) { listeners.push(f); }
   };
 

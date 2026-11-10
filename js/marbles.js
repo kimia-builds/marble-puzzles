@@ -1,4 +1,4 @@
-// Session 3 (first half): marbles fall, and the ramps move.
+// Session 3: marbles fall, the ramps move, and the two bottom levers run the show.
 // This follows how ttsim (Jesse Crossen, Unlicense) simulates a ramp:
 //  - the ramp is a real moving body that pivots around its peg;
 //  - a spring "counterweight" holds it level, and a marble rolling onto the
@@ -65,6 +65,22 @@
     return body;
   }
 
+  // bare pegs: a marble landing on a spot with no ramp bounces off the peg (the dots you see on the board)
+  var pegs = [];
+  var PEG_RADIUS = 4 / K;
+  function rebuildPegs(taken) {
+    pegs.forEach(function (p) { M.Composite.remove(world, p); });
+    pegs = [];
+    for (var row = 0; row <= 10; row++) {
+      for (var col = -4; col <= 4; col++) {
+        if ((row + col) % 2 !== 0 || taken[row + "," + col]) continue;
+        var peg = M.Bodies.circle(col * SPACING, row * SPACING, PEG_RADIUS, { isStatic: true, friction: PART_FRICTION, restitution: 0 });
+        pegs.push(peg);
+      }
+    }
+    M.Composite.add(world, pegs);
+  }
+
   function rebuildRamps() {
     ramps.forEach(function (r) {
       M.Composite.remove(world, r.body);
@@ -86,29 +102,41 @@
       M.Composite.add(world, [body, damper]);
       return { body: body, damper: damper, flipped: flipped, row: r.row, col: r.col, cx: cx, cy: cy, el: r.el };
     });
+    var taken = {};
+    ramps.forEach(function (r) { taken[r.row + "," + r.col] = true; });
+    rebuildPegs(taken);
   }
   rebuildRamps();
   B.onChange(rebuildRamps);
 
   // ---- marbles ----
-  var left = { blue: B.puzzle.balls.blue, red: B.puzzle.balls.red };
-  var done = { blue: 0, red: 0 };
+  var total = { blue: B.puzzle.balls.blue, red: B.puzzle.balls.red };
+  var left = { blue: total.blue, red: total.red };   // still waiting in the funnels
+  var done = { blue: 0, red: 0 };                    // marbles that have hit a lever
   var marbles = [];   // { body, el, colour }
-  var blueBtn = document.getElementById("drop-blue");
-  var redBtn = document.getElementById("drop-red");
+  var started = false, finished = false, quiet = 0;
+  var startBtn = document.getElementById("start");
   var tally = document.getElementById("tally");
-  var bottomY = (B.height - B.originY) / K + 40;   // below this a marble has left the board
+  var resultEl = document.getElementById("result");
+  var leverEls = B.levers;
+  var exitY = (B.leverY - B.originY) / K;   // a marble that falls below this has hit a lever
 
-  function refreshUi() {
-    blueBtn.textContent = "Drop a blue marble (" + left.blue + " left)";
-    redBtn.textContent = "Drop a red marble (" + left.red + " left)";
-    blueBtn.disabled = left.blue === 0;
-    redBtn.disabled = left.red === 0;
-    tally.textContent = "At the end: " + done.blue + " blue, " + done.red + " red";
+  function say(text, kind) {
+    resultEl.textContent = text;
+    resultEl.className = kind || "";
   }
 
-  function drop(colour) {
-    if (left[colour] === 0) return;
+  function refreshUi() {
+    B.funnels.blue.textContent = left.blue;
+    B.funnels.red.textContent = left.red;
+    startBtn.disabled = started;
+    tally.textContent = "Hit the left lever: " + leftHits.blue + " blue, " + leftHits.red + " red.  Hit the right lever: " + rightHits.blue + " blue, " + rightHits.red + " red.";
+  }
+  var rightHits = { blue: 0, red: 0 };
+  var leftHits = { blue: 0, red: 0 };
+
+  function release(colour) {
+    if (left[colour] === 0) return false;
     left[colour]--;
     var funnelCol = colour === "blue" ? -2 : 2;
     // land on the HIGH end of the ramp below the funnel (not on its pivot), so the marble
@@ -124,20 +152,62 @@
     el.className = "marble " + colour;
     B.el.appendChild(el);
     marbles.push({ body: body, el: el, colour: colour });
+    quiet = 0;
     refreshUi();
+    return true;
+  }
+
+  // pressing Start lets out the first blue marble; after that the levers do the work
+  function start() {
+    if (started) return;
+    started = true;
+    finished = false;
+    say("Marbles running…", "");
+    release("blue");
   }
 
   function reset() {
     marbles.forEach(function (m) { M.Composite.remove(world, m.body); B.el.removeChild(m.el); });
     marbles = [];
-    left = { blue: B.puzzle.balls.blue, red: B.puzzle.balls.red };
+    left = { blue: total.blue, red: total.red };
     done = { blue: 0, red: 0 };
+    leftHits = { blue: 0, red: 0 };
+    rightHits = { blue: 0, red: 0 };
+    started = false; finished = false; quiet = 0;
+    say("", "");
     refreshUi();
   }
 
-  blueBtn.addEventListener("click", function () { drop("blue"); });
-  redBtn.addEventListener("click", function () { drop("red"); });
+  // a marble reached the bottom: the lever it hit lets out the next marble
+  function hitLever(colour, x) {
+    var side = x < 0 ? "left" : "right";
+    var el = leverEls[side];
+    el.classList.add("hit");
+    setTimeout(function () { el.classList.remove("hit"); }, 350);
+    (side === "left" ? leftHits : rightHits)[colour]++;
+    done[colour]++;
+    release(side === "left" ? "blue" : "red");
+    quiet = 0;
+  }
+
+  // when nothing is left rolling, decide how the run went (puzzle goal rule: "blue_only")
+  function judge() {
+    finished = true;
+    var redOut = total.red - left.red;
+    if (left.blue === 0 && done.blue === total.blue && redOut === 0) {
+      say("Solved! All " + total.blue + " blue marbles made it, and no red ones got out.", "win");
+    } else if (redOut > 0) {
+      say("A red marble got out. A marble hit the right lever, and that lets a red one go. Press Reset and try a different set of ramps.", "lose");
+    } else {
+      say("The run stopped before all the blue marbles were out. Press Reset and try again.", "lose");
+    }
+    window.MARBLES.solved = left.blue === 0 && done.blue === total.blue && redOut === 0;
+  }
+
+  startBtn.addEventListener("click", start);
   document.getElementById("reset").addEventListener("click", reset);
+  // changing the ramps starts you over, so a result always matches what's on the board
+  B.onChange(function () { if (started) reset(); });
 
   // ---- ttsim's "cheats", run after every physics step ----
   function partOf(body) { return body.parent && body.parent !== body ? body.parent : body; }
@@ -201,6 +271,15 @@
   var last = null, acc = 0, TICK = 1000 / 60;
   function step() {
     for (var i = 0; i < STEPS_PER_TICK; i++) { M.Engine.update(engine, TICK); afterStep(); }
+    if (started && !finished) {
+      quiet++;
+      if (marbles.length === 0) judge();                 // nothing left rolling: the run is over
+      else if (quiet > 30 * 60) {                        // 30 seconds with no marble reaching a lever
+        finished = true;
+        say("A marble seems to be stuck. Press Reset and try a different set of ramps.", "lose");
+        window.MARBLES.solved = false;
+      }
+    }
   }
   function draw() {
     ramps.forEach(function (r) {
@@ -208,11 +287,11 @@
     });
     for (var i = marbles.length - 1; i >= 0; i--) {
       var m = marbles[i], p = m.body.position;
-      if (p.y > bottomY) {                  // fell out of the bottom
+      if (p.y > exitY) {                    // reached the levers
         M.Composite.remove(world, m.body);
         B.el.removeChild(m.el);
         marbles.splice(i, 1);
-        done[m.colour]++;
+        hitLever(m.colour, p.x);
         refreshUi();
       } else {
         m.el.style.transform = "translate(" + (B.originX + p.x * K) + "px," + (B.originY + p.y * K) + "px)";
@@ -229,6 +308,6 @@
   refreshUi();
   requestAnimationFrame(frame);
 
-  window.MARBLES = { engine: engine, marbles: function () { return marbles; }, drop: drop, reset: reset,
+  window.MARBLES = { engine: engine, marbles: function () { return marbles; }, start: start, reset: reset, solved: false,
                      step: step, draw: draw, count: function () { return done; } };
 })();

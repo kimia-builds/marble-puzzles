@@ -144,6 +144,25 @@ footer {
   border: 2px solid var(--board-edge); background: #fff; cursor: pointer;
 }
 #controls button:disabled { opacity: .4; cursor: default; }
-#controls #drop-blue { border-color: var(--blue); color: var(--blue); }
-#controls #drop-red { border-color: var(--red); color: var(--red); }
+#controls #start { background: var(--blue); border-color: var(--blue); color: #fff; }
+#result { margin: 12px 0 0; padding: 0; font-weight: 600; }
+#result.win { padding: 10px 12px; border-radius: 8px; background: #dff3e1; color: #1f6b2c; }
+#result.lose { padding: 10px 12px; border-radius: 8px; background: #fbe4e2; color: #9b2c26; }
+
+/* ---- the two levers at the bottom ---- */
+.lever {
+  position: absolute;
+  width: 168px; height: 44px;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  border-radius: 0 0 10px 10px;
+  border: 2px solid var(--board-edge);
+  background: #ece6d6;
+  font-size: 11px; line-height: 1.25; text-align: center;
+  transition: background .15s, transform .15s;
+}
+.lever strong { display: block; font-size: 12px; }
+.lever.left { left: 50%; margin-left: -176px; }
+.lever.right { left: 50%; margin-left: 8px; }
+.lever.hit { background: #ffe9a8; transform: translateY(5px); }
 #tally { margin: 10px 0 0; font-size: .9rem; }
