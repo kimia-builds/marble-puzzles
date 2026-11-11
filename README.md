@@ -59,10 +59,13 @@ own time.
 - The player only **adds the parts they're given** (ramps, later crossovers) to
   finish the path: drag a part onto the board, tap a ramp to flip it.
 - **Start** lets the first marble go; **Reset marbles** puts them back at the top.
+- A **solved** puzzle keeps the player's parts: going back to it shows the setup that
+  solved it, with the marbles back in their hoppers. A puzzle not solved yet always
+  opens fresh, with none of the player's parts on it.
 - **Solved** means both the right marbles came out *and* the parts are where the
   guide's solution puts them (see "What counts as solved" in [docs/plan.md](docs/plan.md)).
 
-Deliberately left out: speed control, board size, zoom, saving boards, and any part
+Deliberately left out: speed control, board size, zoom, saving or loading boards by hand, and any part
 that hasn't been introduced yet at that point in the guide.
 
 The puzzles themselves are listed in [docs/exercises.md](docs/exercises.md).
