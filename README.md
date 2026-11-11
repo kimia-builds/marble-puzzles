@@ -1,8 +1,8 @@
 # Marble Puzzles (working title)
 
 A small, simplified browser version of the first few exercises from the
-Turing Tumble Practice Guide. The puzzle page works for all eleven puzzles;
-the story and code pages around them are not built yet (see docs/plan.md).
+Turing Tumble Practice Guide. All eleven puzzles work, joined into one journey
+with story, clue and code pages between the stages (placeholder words for now; see docs/plan.md).
 
 ## What we're making
 
@@ -44,4 +44,5 @@ correctly (both are required; see "What counts as solved" in docs/plan.md), a co
 
 The page loads its parts over the network, so it has to be opened through a
 web server (the Claude preview, or the published site), not by double-clicking
-`index.html`.
+`index.html`. Start at `index.html`: it always opens the furthest page reached.
+The story words, clues and codes are all in `data/journey.js`.

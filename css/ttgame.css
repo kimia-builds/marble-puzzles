@@ -1,10 +1,13 @@
 /* Page around the ttsim board. The board itself is drawn by ttsim, so nothing here styles it.
-   The look follows ttsim: white page, black line icons, soft grey rounded buttons. */
+   Dark grey page around a white board (Kimia's choice); soft rounded buttons as in ttsim. */
 :root {
-  --ink: #1a1a1a;
-  --soft: rgba(0, 0, 0, 0.1);      /* ttsim's button background */
-  --soft-over: rgba(0, 0, 0, 0.15);
-  --soft-down: rgba(0, 0, 0, 0.3);
+  --page: #2e2e2e;                 /* the dark grey page */
+  --ink: #f2f2f2;                  /* text on the page */
+  --muted: #b5b5b5;
+  --soft: rgba(255, 255, 255, 0.12);
+  --soft-over: rgba(255, 255, 255, 0.2);
+  --soft-down: rgba(255, 255, 255, 0.3);
+  --light: #ececec;                /* light tiles that hold ttsim's black line pictures */
   --highlight: #ffaa00;            /* ttsim's highlight colour */
   --blue: #0f5bff;                 /* ttsim's blue marble (hue 220) */
   --red: #ff0f0f;                  /* ttsim's red marble (hue 0) */
@@ -14,7 +17,7 @@
 
 body {
   margin: 0;
-  background: #fff;
+  background: var(--page);
   color: var(--ink);
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
@@ -34,8 +37,8 @@ h2 { font-size: 1rem; margin: 0 0 4px; }
   touch-action: none;
   line-height: 0;
 }
-#board canvas { display: block; }
-#loading { line-height: 1.4; color: #777; padding: 40px; margin: 0; }
+#board canvas { display: block; border-radius: 10px; }
+#loading { line-height: 1.4; color: var(--muted); padding: 40px; margin: 0; }
 
 #panel { flex: 1 1 220px; min-width: 220px; max-width: 320px; padding-top: 8px; }
 #tray-count { margin: 0 0 8px; font-weight: 600; }
@@ -47,25 +50,25 @@ h2 { font-size: 1rem; margin: 0 0 4px; }
   padding: 0;
   border: 0;
   border-radius: 10px;
-  background: var(--soft);
+  background: var(--light);
   cursor: grab;
   touch-action: none;
 }
-.tray-item:hover { background: var(--soft-over); }
-.tray-item:active { background: var(--soft-down); }
+.tray-item:hover { background: #fff; }
+.tray-item:active { background: #d6d6d6; }
 .tray-item.empty { opacity: 0.25; cursor: default; pointer-events: none; }
 .tray-item .icon { position: absolute; left: 8px; top: 8px; width: 48px; height: 48px; pointer-events: none; }
 .tray-item[data-lean="left"] .icon { transform: scaleX(-1); }
 .tray-item .count {
   position: absolute; right: 4px; bottom: 3px;
-  font-size: 11px; font-weight: 700; line-height: 1;
+  font-size: 11px; font-weight: 700; line-height: 1; color: #1a1a1a;
   pointer-events: none;
 }
 
 /* pictures cut from ttsim's sprite sheet */
 .sprite { background-image: url("../vendor/ttsim/images/parts.png"); background-repeat: no-repeat; }
 
-.hint { font-size: 0.85rem; color: #666; }
+.hint { font-size: 0.85rem; color: var(--muted); }
 
 /* the picture that follows the finger or mouse while dragging */
 #ghost { position: fixed; z-index: 10; pointer-events: none; opacity: 0.5; left: 0; top: 0; }
@@ -93,11 +96,7 @@ h2 { font-size: 1rem; margin: 0 0 4px; }
 #result { margin: 12px 0 0; font-weight: 600; }
 #result.win { padding: 10px 12px; border-radius: 10px; background: #dff3e1; color: #1f6b2c; }
 #result.lose { padding: 10px 12px; border-radius: 10px; background: #fbe4e2; color: #9b2c26; }
-#tally { margin: 10px 0 0; font-size: 0.9rem; color: #444; }
+#tally { margin: 10px 0 0; font-size: 0.9rem; color: var(--muted); }
 
-footer { max-width: 1000px; margin: 12px auto 20px; padding: 0 16px; font-size: 0.8rem; color: #777; }
-
-/* temporary puzzle picker */
-#picker { font-size: 0.85rem; color: #666; }
-#picker a { display: inline-block; min-width: 26px; text-align: center; margin-right: 4px; padding: 2px 6px; border-radius: 6px; background: var(--soft); color: var(--ink); text-decoration: none; }
-#picker a.current { background: var(--ink); color: #fff; }
+footer { max-width: 1000px; margin: 12px auto 0; padding: 0 16px 90px; font-size: 0.8rem; color: var(--muted); }
+footer a { color: var(--muted); }
