@@ -28,12 +28,12 @@ at the end of the hunt.
 Six stages, one per Challenge. Stage 1 is Challenge 1; Stages 2 to 6 each have the
 guide's practice puzzle, then the Challenge. Eleven puzzles in all.
 
-**Part 1 story → Stage 1 puzzle → "Stage done" page (next part of the story, a clue,
-a code box) → next stage's puzzles → … → after Stage 6, a last clue and code →
-final page (Part 7).**
+**Part 1 story, question and code box → Stage 1 puzzle → "Stage done" page (Part 2 of the
+story, a question, a code box) → Stage 2's puzzles → … → Part 6 and its code → Stage 6's
+puzzles → final page (Part 7).**
 
-- The clue on each "Stage done" page is a small extra puzzle or question; its answer
-  is the code that opens the next stage.
+- Each of Parts 1 to 6 ends with a question about the story; its answer is the code
+  that opens that part's stage. Capitals, spaces and dots don't matter when typing it.
 - A progress bar on every page shows how far along the journey you are.
   **Back** (bottom left) and **Next** (bottom right) are always in the same place;
   Next stays greyed out until the page is done (puzzle solved, or right code typed).
@@ -74,9 +74,8 @@ The puzzles themselves are listed in [docs/exercises.md](docs/exercises.md).
 ## Status
 
 All eleven puzzles work, joined into the full journey with its progress bar and
-Back/Next. The story words, clues and codes are **placeholders** for now; they all
-live in `data/journey.js`, so the real ones drop in without touching the game.
-Still to come: the real story and clues, the look, then a tablet check and
+Back/Next. The real story (seven parts), its questions and its six codes are in, all
+in `data/journey.js`. Still to come: the look, then a tablet check and
 publishing. See [docs/plan.md](docs/plan.md).
 
 ## Where things come from
