@@ -63,7 +63,8 @@ own time.
   solved it, with the marbles back in their hoppers. A puzzle not solved yet always
   opens fresh, with none of the player's parts on it.
 - **Solved** means both the right marbles came out *and* the parts are where the
-  guide's solution puts them (see "What counts as solved" in [docs/plan.md](docs/plan.md)).
+  guide's solution puts them (see "What counts as solved" in [docs/plan.md](docs/plan.md));
+  one practice puzzle accepts a few other equally good builds).
 
 Deliberately left out: speed control, board size, zoom, saving or loading boards by hand, and any part
 that hasn't been introduced yet at that point in the guide.
