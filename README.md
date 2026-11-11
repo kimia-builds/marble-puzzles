@@ -1,48 +1,93 @@
-# Marble Puzzles (working title)
+# Turing Tumble Treasure Hunt
 
-A small, simplified browser version of the first few exercises from the
-Turing Tumble Practice Guide. All eleven puzzles work, joined into one journey
-with story, clue and code pages between the stages (placeholder words for now; see docs/plan.md).
+*(repository: `marble-puzzles`)*
 
-## What we're making
+A browser puzzle journey made as a gift. It teaches a young player how
+[Turing Tumble](https://upperstory.com/turingtumble/) works, one puzzle at a time,
+so that by the time the real, physical game is handed over they already know how
+to use it and who its characters are. The physical Turing Tumble is the treasure
+at the end of the hunt.
 
-A web page where a person solves a short series of marble-run puzzles.
+## The idea
 
-For each puzzle:
+- **Real Turing Tumble from the start.** Every puzzle is a real one, taken in order
+  from UpperStory's official Practice Guide (Challenges 1 to 6 and their practice
+  puzzles). The game needs a little commitment before it gets good, so the journey
+  starts with it straight away.
+- **A story wrapped around it.** The puzzles are joined by a story told through
+  Alia, the heroine of Turing Tumble's own story, who is there from the first stage.
+  It begins in the world of LEGO Ninjago and, stage by stage, follows Alia out of
+  magic and into science, ending where the Turing Tumble story begins.
+- **One new thing at a time.** Each puzzle adds only a little. Ramps come first;
+  the crossover arrives at Challenge 5.
+- **Nothing can be skipped.** Every puzzle has to be genuinely solved to move on.
+- **Finish on the real thing.** The last page leads to the physical game.
+
+## How it unfolds
+
+Six stages, one per Challenge. Stage 1 is Challenge 1; Stages 2 to 6 each have the
+guide's practice puzzle, then the Challenge. Eleven puzzles in all.
+
+**Part 1 story → Stage 1 puzzle → "Stage done" page (next part of the story, a clue,
+a code box) → next stage's puzzles → … → after Stage 6, a last clue and code →
+final page (Part 7).**
+
+- The clue on each "Stage done" page is a small extra puzzle or question; its answer
+  is the code that opens the next stage.
+- A progress bar on every page shows how far along the journey you are.
+  **Back** (bottom left) and **Next** (bottom right) are always in the same place;
+  Next stays greyed out until the page is done (puzzle solved, or right code typed).
+- Progress is remembered in the browser, so the player can stop and come back
+  another day and pick up where they left off.
+
+The whole journey is delivered at once and the player unlocks the stages in their
+own time.
+
+## Design principles
+
+- **Short instructions, minimal reading.**
+- **A steady rhythm.** Every stage follows the same pattern and every page has the
+  same frame, so there is always a familiar baseline to come back to.
+- **True to the physical game.** The puzzles use the same parts, in the same order,
+  and behave the same way as the real Turing Tumble. The board and marbles are the
+  real [ttsim](https://github.com/jessecrossen/ttsim) simulator, running unchanged.
+
+## Each puzzle
 
 - The board is **locked**. Nothing on it can be moved, resized or zoomed.
 - The puzzle's **starting parts are already in place**.
-- The person only **adds the parts they're given** (for these first puzzles,
-  ramps) to finish the path.
-- They press Start, and **marbles tumble down** in the real ttsim simulator:
-  the board, parts, marbles and physics are ttsim's own code, running unchanged.
-- A **reset** button puts the marbles back at the top. That's all it does.
+- The player only **adds the parts they're given** (ramps, later crossovers) to
+  finish the path: drag a part onto the board, tap a ramp to flip it.
+- **Start** lets the first marble go; **Reset marbles** puts them back at the top.
+- **Solved** means both the right marbles came out *and* the parts are where the
+  guide's solution puts them (see "What counts as solved" in [docs/plan.md](docs/plan.md)).
 
-Deliberately left out: speed control, board size, zoom, saving/loading, and
-any part that hasn't been introduced yet at that point in the guide.
+Deliberately left out: speed control, board size, zoom, saving boards, and any part
+that hasn't been introduced yet at that point in the guide.
 
-## The puzzles
+The puzzles themselves are listed in [docs/exercises.md](docs/exercises.md).
 
-Eleven puzzles in six stages (Challenges 1 to 6, each preceded by the guide's
-practice puzzle where it has one). All eleven are real puzzles: each has to be
-solved to move on to the next page. The crossover is introduced at
-Challenge 5. See [docs/exercises.md](docs/exercises.md).
+## Status
 
-## Later idea: the reward page
-
-When the person has built the special pattern *and* watched the marbles run
-correctly (both are required; see "What counts as solved" in docs/plan.md), a congratulatory page is revealed. Not designed yet; see
-[docs/open-questions.md](docs/open-questions.md).
+All eleven puzzles work, joined into the full journey with its progress bar and
+Back/Next. The story words, clues and codes are **placeholders** for now; they all
+live in `data/journey.js`, so the real ones drop in without touching the game.
+Still to come: the real story and clues, the look, then a tablet check and
+publishing. See [docs/plan.md](docs/plan.md).
 
 ## Where things come from
 
-- Puzzles: the [Turing Tumble Practice Guide](https://upperstory.com/turingtumble/assets/practice-guide-2021.pdf) (UpperStory).
-- Board, parts, marbles and physics: [ttsim](https://github.com/jessecrossen/ttsim) by Jesse Crossen (Unlicense, free to reuse),
-  copied unchanged into `vendor/ttsim`. See [docs/reuse-from-ttsim.md](docs/reuse-from-ttsim.md).
+- Puzzles: the [Turing Tumble Practice Guide](https://upperstory.com/turingtumble/assets/practice-guide-2021.pdf)
+  by UpperStory, free to use for non-commercial purposes with credit.
+- Board, parts, marbles and physics: [ttsim](https://github.com/jessecrossen/ttsim) by Jesse Crossen
+  (Unlicense, free to reuse), copied unchanged into `vendor/ttsim`.
+  See [docs/reuse-from-ttsim.md](docs/reuse-from-ttsim.md).
+- Turing Tumble and its characters belong to UpperStory; LEGO and Ninjago are
+  trademarks of the LEGO Group. This is a non-commercial fan project, not
+  affiliated with either.
 
 ## Trying it
 
-The page loads its parts over the network, so it has to be opened through a
-web server (the Claude preview, or the published site), not by double-clicking
+The page loads its parts over the network, so it has to be opened through a web
+server (the Claude preview, or the published site), not by double-clicking
 `index.html`. Start at `index.html`: it always opens the furthest page reached.
-The story words, clues and codes are all in `data/journey.js`.
