@@ -63,8 +63,27 @@ Keep each session to its one job; start a fresh session for the next.
 **Status:** Sessions 1 to 4 are done, and the board and marbles were then rebuilt on the real ttsim engine
 (Kimia found the hand-made version did not look or feel like ttsim). All 11 puzzles solve with the guide's solution on it.
 The bottom of the board is ttsim's slopes and two turnstiles (Kimia's choice, replacing the earlier lever bars); speed is ttsim's normal speed.
-Practice puzzles were free play for a while; now that the board is the real ttsim one they are ordinary solvable puzzles again, checked exactly like the Challenges (Kimia's decision). Also since playtesting: runs use 3 marbles instead of 8; the crossover part, Challenges 4-6 and practice 5/6 were added (11 puzzles, 6 stages). Session 4: the page can show any of the puzzles (`index.html?puzzle=N`, with a temporary row of
-number links that Session 5 replaces). Each puzzle uses its own win rule from `data/puzzles.js`.
+Practice puzzles were free play for a while; now that the board is the real ttsim one they are ordinary solvable puzzles again, checked exactly like the Challenges (Kimia's decision). Also since playtesting: runs use 3 marbles instead of 8; the crossover part, Challenges 4-6 and practice 5/6 were added (11 puzzles, 6 stages). Session 4: the page could show any of the puzzles by number (replaced in Session 5 by the journey). Each puzzle uses its own win rule from `data/puzzles.js`.
+
+**Session 5, first slice (flow only, plain look):** the journey works end to end with placeholder text and codes.
+Page order (decided with Kimia): Part 1 story → Stage 1 puzzle → a page with "Stage done", the next story part, a clue
+and the code box → the next stage's puzzles → … → after Stage 6, a clue + code page → final page (Part 7).
+The clue on each page is a small extra puzzle or question whose answer is the code.
+- `index.html` is the journey (story, clue and final pages); `puzzle.html?step=N` is the board. Opening `index.html`
+  goes to the furthest page reached. Locked pages can't be opened by changing the address.
+- All words, clues and codes are in `data/journey.js`. Codes are stored scrambled; make one with
+  `JOURNEY_CORE.hash("CODE")` in the browser console. Placeholder codes: 111, 222, ... 666.
+- Every page has the same frame (Kimia's request): a progress bar on top (one segment per page, grouped by
+  stage; orange = this page), and Back (bottom left) and Next (bottom right) always in the same place.
+  Next is greyed out until the page is done: story read, puzzle solved, or right code typed (then it turns orange).
+- Dark grey page; the board (ttsim draws it white) and the parts tray stay light.
+- Solving a puzzle is remembered at once. A code page already passed shows the code he typed, in a green box,
+  with "Code already found" (Kimia's request).
+- The Part 1 page keeps its big "Start Stage 1" button (Kimia's request), as well as Next. Reopening the link
+  after only reading Part 1 lands on Part 1 again: the story counts as read once he presses Start or Next.
+- The final page has a "Start over" button (asks first).
+- Still to do in Session 5: the real story text and clues/codes (waiting on alia-story-beats.md), then the look,
+  one visible change at a time.
 
 Sessions 2 and 3 are the biggest. If session 3 runs long, split it at "marbles
 fall" versus "levers and win check" rather than letting it sprawl.

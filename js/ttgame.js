@@ -7,7 +7,8 @@
 //   - switches off ttsim's own mouse handling (no panning, zooming, resizing, flipping fixed parts);
 //   - adds the parts tray, Start / Reset, and the solved / not-solved check.
 //
-// Which puzzle to show comes from the address: index.html?puzzle=3 (default 1).
+// Which puzzle to show comes from the journey (js/journey-core.js): puzzle.html?step=N.
+// A step that is still locked sends the person to the furthest page they have reached.
 (function () {
   "use strict";
 
@@ -23,10 +24,11 @@
   var BLUE_HUE = 220, RED_HUE = 0;
 
   // ---- which puzzle ----
+  var J = window.JOURNEY_CORE;
+  var step = J.currentStep();
+  if (J.pages[step].kind !== "puzzle") { window.location.replace(J.urlFor(step)); return; }
   var allPuzzles = window.PUZZLES.puzzles;
-  var wanted = parseInt(new URLSearchParams(window.location.search).get("puzzle"), 10);
-  if (!(wanted >= 1 && wanted <= allPuzzles.length)) wanted = 1;
-  var puzzle = allPuzzles[wanted - 1];
+  var puzzle = allPuzzles.filter(function (p) { return p.id === J.pages[step].puzzle; })[0];
   var startColour = puzzle.start_colour || "blue";
 
   var boardEl = document.getElementById("board");
@@ -37,15 +39,9 @@
   var resultEl = document.getElementById("result");
   var tallyEl = document.getElementById("tally");
 
-  var pickerEl = document.getElementById("picker");
-  allPuzzles.forEach(function (p, i) {
-    var a = document.createElement("a");
-    a.href = "?puzzle=" + (i + 1);
-    a.textContent = i + 1;
-    a.title = p.name;
-    if (i + 1 === wanted) a.className = "current";
-    pickerEl.appendChild(a);
-  });
+  // progress bar on top, Back / Next at the bottom; Next turns on once the puzzle is solved
+  var setNext = J.frame(step);
+
   document.title = "Marble Puzzles: " + puzzle.name;
   document.getElementById("puzzle-name").textContent = puzzle.name;
   document.getElementById("goal").textContent = puzzle.goal_text;
@@ -105,7 +101,7 @@
 
     // one fixed size, chosen once to fit the window (the player cannot zoom)
     var winH = Math.max(window.innerHeight || 0, document.documentElement.clientHeight || 0);
-    var room = winH - 130;
+    var room = winH - 230;            // leave space for the progress bar, title and Back / Next bar
     var size = winH > 0 ? 24 : 32;             // if the window height isn't known yet, use a middling size
     if (winH > 0) [28, 32, 40, 48].forEach(function (s) { if (17.5 * Math.floor(s * 1.0625) <= room) size = s; });
     board.partSize = size;
@@ -463,6 +459,10 @@
     }
     say(verdict.text, verdict.ok ? "win" : "lose");
     game.solved = verdict.ok;
+    if (verdict.ok) {
+      J.reach(step + 1);       // remembered at once, so a refresh doesn't lose the solve
+      setNext(true);
+    }
   }
 
   function refreshUi() {
