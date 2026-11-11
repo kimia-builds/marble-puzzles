@@ -144,7 +144,19 @@
     part.isFlipped = flipped;
     part.isLocked = locked;
     board.setPart(part, COL0 + col, ROW0 + row);
+    if (locked && (type === RAMP || type === CROSSOVER)) dull(board.getPart(COL0 + col, ROW0 + row));   // the board keeps its own copy
     return part;
+  }
+
+  // The puzzle's fixed parts are the same green as the player's, just a little duller,
+  // so they can be told apart. (A light grey-green tint multiplies the colour down.)
+  var FIXED_TINT = 0xB9C6B9;
+  function dull(part) {
+    if (!part) return;
+    for (var layer = 0; layer < 9; layer++) {
+      var sprite = part.getSpriteForLayer(layer);
+      if (sprite) sprite.tint = FIXED_TINT;
+    }
   }
 
   function fillDrops() {
