@@ -127,6 +127,7 @@
     puzzle.preplaced_ramps.forEach(function (p) { put(RAMP, p.row, p.col, p.rolls === "left", true); });
     (puzzle.preplaced_crossovers || []).forEach(function (p) { put(CROSSOVER, p.row, p.col, false, true); });
     board.bulkUpdate = false;
+    restoreMine();
     fillDrops();
 
     boardEl.innerHTML = "";
@@ -209,6 +210,15 @@
   function changed() {
     if (started) reset();
     refreshUi();
+  }
+  // On a puzzle he has already solved, put back the setup that solved it (skipping anything that no
+  // longer fits). A puzzle not solved yet always opens fresh, with none of his parts on it.
+  function restoreMine() {
+    if (J.getProgress() <= step) return;
+    J.savedBoard(step).forEach(function (m) {
+      if ((m.kind !== "ramp" && m.kind !== "crossover") || !isFree(m.row, m.col) || remaining(m.kind) <= 0) return;
+      put(m.kind === "ramp" ? RAMP : CROSSOVER, m.row, m.col, m.rolls === "left", false);
+    });
   }
 
   // ---- tray ----
@@ -473,6 +483,7 @@
     game.solved = verdict.ok;
     if (verdict.ok) {
       J.reach(step + 1);       // remembered at once, so a refresh doesn't lose the solve
+      J.rememberBoard(step, getMine());   // the setup that solved it, shown again when he comes back
       setNext(true);
     }
   }

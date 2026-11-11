@@ -86,7 +86,10 @@ The clue on each page is a small extra puzzle or question whose answer is the co
   with "Code already found" (Kimia's request).
 - The Part 1 page keeps its big "Start Stage 1" button (Kimia's request), as well as Next. Reopening the link
   after only reading Part 1 lands on Part 1 again: the story counts as read once he presses Start or Next.
-- The final page has a "Start over" button (asks first).
+- A solved puzzle keeps his parts (Kimia's request): going Back to it, or reopening it, shows the setup
+  that solved it, with the marbles back in their hoppers. It is saved at the moment of solving; changes
+  made afterwards without solving again are not kept. A puzzle not solved yet always opens fresh (Kimia's request).
+- The final page has a "Start over" button (asks first); it also clears the saved boards.
 - Still to do in Session 5: the real story text and clues/codes (waiting on alia-story-beats.md), then the look,
   one visible change at a time.
 

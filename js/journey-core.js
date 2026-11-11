@@ -33,6 +33,20 @@
   }
   function foundCode(step) { return readCodes()[step]; }
 
+  // the parts that solved each puzzle, so going back to a solved puzzle shows his setup
+  // (only the parts: the marbles always start again in their hoppers; unsolved puzzles open fresh)
+  var BOARDS = "marble-puzzles-boards", boardMemory = {};
+  function readBoards() {
+    try { return JSON.parse(localStorage.getItem(BOARDS)) || {}; } catch (e) { return boardMemory; }
+  }
+  function rememberBoard(step, parts) {
+    var all = readBoards();
+    all[step] = parts;
+    boardMemory = all;
+    try { localStorage.setItem(BOARDS, JSON.stringify(all)); } catch (e) { /* kept in memory instead */ }
+  }
+  function savedBoard(step) { return readBoards()[step] || []; }
+
   // the address of a page: puzzles have their own page, everything else is on index.html
   function urlFor(step) {
     return (pages[step].kind === "puzzle" ? "puzzle.html" : "index.html") + "?step=" + step;
@@ -134,6 +148,7 @@
     pages: pages, getProgress: getProgress, reach: reach, urlFor: urlFor,
     currentStep: currentStep, next: next, hash: hash, stageLabel: stageLabel, frame: frame,
     rememberCode: rememberCode, foundCode: foundCode,
-    startOver: function () { try { localStorage.removeItem(KEY); localStorage.removeItem(CODES); } catch (e) {} memory = 0; codeMemory = {}; window.location.href = urlFor(0); }
+    rememberBoard: rememberBoard, savedBoard: savedBoard,
+    startOver: function () { try { localStorage.removeItem(KEY); localStorage.removeItem(CODES); localStorage.removeItem(BOARDS); } catch (e) {} memory = 0; codeMemory = {}; boardMemory = {}; window.location.href = urlFor(0); }
   };
 })();
