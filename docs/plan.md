@@ -14,7 +14,9 @@ puzzles with story/code pages between them.
 
 A fixed sequence of pages:
 
-Part 1 story → stage 1 puzzle → stage-done page (Part 2 story + clue + code box) → stage 2 puzzles → … → stage 6 → last clue + code → final page (Part 7)
+Part 1 story + question + code box → stage 1 puzzle → stage-done page (Part 2 story + question + code box) → stage 2 puzzles → … → Part 6 + code → stage 6 puzzles → final page (Part 7)
+
+(Story part N goes with stage N and comes before it; its code opens that stage. Decided with Kimia when the real story arrived.)
 
 (Six stages = Challenges 1-6. Stages 2 to 6 have two puzzles each: the guide's practice puzzle, then the Challenge.
 Both are real puzzles with a solved state. **Every puzzle has to be genuinely solved to move on to the next page**:
@@ -96,8 +98,13 @@ The clue on each page is a small extra puzzle or question whose answer is the co
   that solved it, with the marbles back in their hoppers. It is saved at the moment of solving; changes
   made afterwards without solving again are not kept. A puzzle not solved yet always opens fresh (Kimia's request).
 - The final page has a "Start over" button (asks first); it also clears the saved boards.
-- Still to do in Session 5: the real story text and clues/codes (waiting on alia-story-beats.md), then the look,
-  one visible change at a time.
+- **The real story is in** (Alia's Story Beats, seven parts, six codes). The order changed slightly from the
+  placeholder version: Part 1 now has its own question and code box (the big "Start Stage 1" button is gone), and
+  the extra code page after Stage 6 is gone, so solving Stage 6 opens Part 7 directly. In each part, the closing
+  question sits in the code box as the clue. A typed code ignores capitals, spaces and dots.
+- The code box is one box per letter, like Hangman (Kimia's request), so the number of boxes is an extra clue.
+  Two-word codes show a gap between the words. The letter counts are `code_letters` in `data/journey.js`.
+- Still to do in Session 5: the look, one visible change at a time.
 
 Sessions 2 and 3 are the biggest. If session 3 runs long, split it at "marbles
 fall" versus "levers and win check" rather than letting it sprawl.

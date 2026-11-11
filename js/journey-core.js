@@ -71,7 +71,7 @@
   }
 
   // a small, fixed scrambling of a code, so codes aren't readable in the page source (not real security)
-  function normalise(code) { return String(code).toUpperCase().replace(/\s+/g, ""); }
+  function normalise(code) { return String(code).toUpperCase().replace(/[^A-Z0-9]/g, ""); }   // case, spaces and dots don't matter
   function hash(code) {
     var s = normalise(code), h1 = 0xdeadbeef, h2 = 0x41c6ce57;
     for (var i = 0; i < s.length; i++) {
