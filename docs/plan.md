@@ -1,5 +1,10 @@
 # Build plan
 
+**Why:** a puzzle journey given as a gift, which teaches the player how Turing Tumble works
+(and who Alia is) before the physical game is handed over. The physical game is the treasure
+at the end. The story follows Alia from the world of Ninjago, out of magic and into science,
+ending where the Turing Tumble story begins. See the README for the idea and design principles.
+
 Decided with Kimia: a small page that runs the real ttsim simulator, unchanged,
 for the board and marbles (see docs/reuse-from-ttsim.md); puzzle layouts read from the UpperStory PDF;
 desktop and tablet (mouse or touch); the finished thing is a **journey** of
@@ -9,7 +14,7 @@ puzzles with story/code pages between them.
 
 A fixed sequence of pages:
 
-story 1 → puzzle → congrats + code box → story 2 → … → stage 6 → final page
+Part 1 story → stage 1 puzzle → stage-done page (Part 2 story + clue + code box) → stage 2 puzzles → … → stage 6 → last clue + code → final page (Part 7)
 
 (Six stages = Challenges 1-6. Stages 2 to 6 have two puzzles each: the guide's practice puzzle, then the Challenge.
 Both are real puzzles with a solved state. **Every puzzle has to be genuinely solved to move on to the next page**:
