@@ -35,7 +35,13 @@ Success needs BOTH of these, every time:
 2. **Correct ramp setup**: the ramps the player placed are exactly the guide's solution
    (`guide_solution_ramps`): every ramp placed, in the right spot, leaning the right way, none extra.
 
+One exception (Kimia's decision): **puzzle 4** (Practice Puzzle A for Challenge 3) has six clean builds,
+not one. The four ramps above row 7 can zigzag down in different ways and still hand the marble to the fixed
+ramp on row 7, with every part on the board touched. All six count as solved; the five besides the guide's
+are listed in that puzzle's `also_accepted_ramps` in `data/puzzles.js`.
+
 Marbles reaching the goal with any other setup is NOT a solve. Direction is part of the setup.
+(Challenge 5 also has other builds that work, but its answer is symmetrical and obvious, so it stays guide-only.)
 Checked by `setupCheck()` in `js/ttgame.js`. This is the "built the pattern *and* watched it run
 correctly" idea from the README, and it is what unlocks a round's code box.
 

@@ -450,7 +450,7 @@
     }
   };
 
-  // Is the player's setup the guide's? Same spots, same lean, nothing missing, nothing extra.
+  // Is the player's setup the guide's (or another accepted build)? Same spots, same lean, nothing missing, nothing extra.
   function setupCheck() {
     var want = {}, wantCount = 0;
     (puzzle.guide_solution_ramps || []).forEach(function (g) { want["ramp:" + g.row + "," + g.col] = g.rolls; wantCount++; });
@@ -462,7 +462,20 @@
       if (!w) bad++; else if (w !== r.rolls) wrongWay++;
     });
     if (bad === 0 && wrongWay === 0 && n === wantCount) return "ok";
+    if (matchesAnother()) return "ok";
     return bad === 0 && n === wantCount ? "wrongway" : "wrong";
+  }
+
+  // A few puzzles have other builds that are just as good as the guide's (the puzzle's
+  // "also_accepted_ramps" in data/puzzles.js): the player's ramps may match any one of them exactly.
+  function matchesAnother() {
+    var mine = getMine();
+    return (puzzle.also_accepted_ramps || []).some(function (build) {
+      if (mine.length !== build.length) return false;
+      return mine.every(function (m) {
+        return m.kind === "ramp" && build.some(function (g) { return g.row === m.row && g.col === m.col && g.rolls === m.rolls; });
+      });
+    });
   }
 
   function judge() {

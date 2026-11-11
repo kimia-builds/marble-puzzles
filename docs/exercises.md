@@ -14,7 +14,7 @@ at Challenge 5 (that is where the guide introduces it too).
 | 1 | 1 | Challenge 1: Gravity | 1 | All the blue balls (and only blue) reach the end. | 4 ramps |
 | 2 | 2 | Practice Puzzle A for Challenge 2 | 3 | All the blue balls (and only blue) reach the end. | 3 ramps |
 | 3 | 2 | Challenge 2: Re-entry | 5 | Same goal. | 5 ramps |
-| 4 | 3 | Practice Puzzle A for Challenge 3 | 7 | The blue ball releases the red ball. | 7 ramps |
+| 4 | 3 | Practice Puzzle A for Challenge 3 | 7 | The blue ball releases the red ball. | 5 ramps |
 | 5 | 3 | Challenge 3: Ignition | 9 | One blue ball, then all the red. | 6 ramps |
 | 6 | 4 | Practice Puzzle A for Challenge 4 | 11 | One blue ball, then all the red. | 6 ramps |
 | 7 | 4 | Challenge 4: Fusion | 15 | One RED ball (Start is on the red side), then all the blue. | 12 ramps |
@@ -30,6 +30,13 @@ and 1 and 1 for puzzle 4 (as in the guide).
 Ramp counts: puzzle 4 (guide says 8, solution uses 7) and Challenge 4 (guide
 says 13, solution uses 12): decided with Kimia to give exactly what the
 solution uses.
+
+Puzzle 4 has two of its seven solution ramps already fixed on the board (the
+lowest one, row 9, and the third lowest, row 7), so the player adds 5. Kimia's
+decision: with all seven loose, dozens of other builds also set off the red
+marble, and the game turned them down for not matching the guide. Six clean
+builds remain (the ramps above row 7 can zigzag differently); the game accepts
+all six.
 
 The board is 11 columns wide (-5 to +5): Challenge 4's solution uses the
 outermost columns.

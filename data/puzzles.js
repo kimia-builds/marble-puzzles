@@ -1,6 +1,6 @@
 // Puzzle data (kept as a .js file so the page opens straight from the folder).
 window.PUZZLES = {
- "_about": "Read from the vector drawings in the Turing Tumble Practice Guide 1.0 (UpperStory). Grid: row 0 = top row of ramps just under the ball funnels, rows count down; col 0 = centre column, negative = left, positive = right; one col step = half a peg gap (row+col is always even). 'rolls' = the direction a ball rolls off the ramp. guide_solution_ramps are for checking our version only, never shown to the player. Crossovers: 'preplaced_crossovers' are fixed; 'guide_solution_crossovers' are the ones the player places ('crossovers_to_add' of them). 'start_colour' (default blue) is the colour the Start button lets out first.",
+ "_about": "Read from the vector drawings in the Turing Tumble Practice Guide 1.0 (UpperStory). Grid: row 0 = top row of ramps just under the ball funnels, rows count down; col 0 = centre column, negative = left, positive = right; one col step = half a peg gap (row+col is always even). 'rolls' = the direction a ball rolls off the ramp. guide_solution_ramps are for checking our version only, never shown to the player. Crossovers: 'preplaced_crossovers' are fixed; 'guide_solution_crossovers' are the ones the player places ('crossovers_to_add' of them). 'also_accepted_ramps' (optional): other complete sets of player ramps that count as solved as well as the guide's. 'start_colour' (default blue) is the colour the Start button lets out first.",
  "puzzles": [
   {
    "id": 1,
@@ -245,6 +245,16 @@ window.PUZZLES = {
      "row": 2,
      "col": 0,
      "rolls": "right"
+    },
+    {
+     "row": 7,
+     "col": 1,
+     "rolls": "left"
+    },
+    {
+     "row": 9,
+     "col": 1,
+     "rolls": "right"
     }
    ],
    "guide_solution_ramps": [
@@ -269,23 +279,150 @@ window.PUZZLES = {
      "rolls": "right"
     },
     {
-     "row": 7,
-     "col": 1,
-     "rolls": "left"
-    },
-    {
      "row": 8,
      "col": 0,
      "rolls": "right"
-    },
-    {
-     "row": 9,
-     "col": 1,
-     "rolls": "right"
     }
    ],
-   "ramps_to_add": 7,
-   "note": "The guide lists 8 ramps but its own solution only uses 7; Kimia decided to give 7."
+   "also_accepted_ramps": [
+    [
+     {
+      "row": 3,
+      "col": 1,
+      "rolls": "left"
+     },
+     {
+      "row": 4,
+      "col": 0,
+      "rolls": "left"
+     },
+     {
+      "row": 5,
+      "col": -1,
+      "rolls": "right"
+     },
+     {
+      "row": 6,
+      "col": 0,
+      "rolls": "right"
+     },
+     {
+      "row": 8,
+      "col": 0,
+      "rolls": "right"
+     }
+    ],
+    [
+     {
+      "row": 3,
+      "col": 1,
+      "rolls": "left"
+     },
+     {
+      "row": 4,
+      "col": 0,
+      "rolls": "right"
+     },
+     {
+      "row": 5,
+      "col": 1,
+      "rolls": "right"
+     },
+     {
+      "row": 6,
+      "col": 2,
+      "rolls": "left"
+     },
+     {
+      "row": 8,
+      "col": 0,
+      "rolls": "right"
+     }
+    ],
+    [
+     {
+      "row": 3,
+      "col": 1,
+      "rolls": "right"
+     },
+     {
+      "row": 4,
+      "col": 2,
+      "rolls": "left"
+     },
+     {
+      "row": 5,
+      "col": 1,
+      "rolls": "left"
+     },
+     {
+      "row": 6,
+      "col": 0,
+      "rolls": "right"
+     },
+     {
+      "row": 8,
+      "col": 0,
+      "rolls": "right"
+     }
+    ],
+    [
+     {
+      "row": 3,
+      "col": 1,
+      "rolls": "right"
+     },
+     {
+      "row": 4,
+      "col": 2,
+      "rolls": "left"
+     },
+     {
+      "row": 5,
+      "col": 1,
+      "rolls": "right"
+     },
+     {
+      "row": 6,
+      "col": 2,
+      "rolls": "left"
+     },
+     {
+      "row": 8,
+      "col": 0,
+      "rolls": "right"
+     }
+    ],
+    [
+     {
+      "row": 3,
+      "col": 1,
+      "rolls": "right"
+     },
+     {
+      "row": 4,
+      "col": 2,
+      "rolls": "right"
+     },
+     {
+      "row": 5,
+      "col": 3,
+      "rolls": "left"
+     },
+     {
+      "row": 6,
+      "col": 2,
+      "rolls": "left"
+     },
+     {
+      "row": 8,
+      "col": 0,
+      "rolls": "right"
+     }
+    ]
+   ],
+   "ramps_to_add": 5,
+   "note": "The guide lists 8 ramps and its solution uses 7. Two of those 7 (the lowest, row 9, and the third lowest, row 7) are fixed on the board here, so the player adds 5: Kimia's decision, to cut down the number of other builds that also work. Five other clean builds still work (the four ramps above row 7 can zigzag differently, every part on the board still touched): they are listed in also_accepted_ramps and count as solved too."
   },
   {
    "id": 5,
