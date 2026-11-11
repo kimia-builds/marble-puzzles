@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Marble Puzzles</title>
-  <link rel="stylesheet" href="css/style.css?v=21">
+  <link rel="stylesheet" href="css/ttgame.css?v=2">
 </head>
 <body>
   <main>
@@ -13,20 +13,20 @@
     <p id="goal"></p>
 
     <div class="play-area">
-      <div id="board" aria-label="Puzzle board"></div>
+      <div id="board" aria-label="Puzzle board"><p id="loading">Loading…</p></div>
 
-      <aside id="tray-panel">
+      <aside id="panel">
         <h2>Your parts</h2>
         <p id="tray-count"></p>
         <div id="tray">
-          <div class="tray-slot"><div class="ramp tray-ramp" data-kind="ramp" data-lean="left" role="img" aria-label="Ramp that rolls marbles left"></div></div>
-          <div class="tray-slot"><div class="ramp tray-ramp" data-kind="ramp" data-lean="right" role="img" aria-label="Ramp that rolls marbles right"></div></div>
-          <div class="tray-slot"><div class="ramp tray-ramp" data-kind="crossover" data-lean="none" role="img" aria-label="Crossover: marbles pass straight across it"></div></div>
+          <button class="tray-item" data-kind="ramp" data-lean="left" aria-label="Ramp that rolls marbles left"><span class="icon"></span><span class="count"></span></button>
+          <button class="tray-item" data-kind="ramp" data-lean="right" aria-label="Ramp that rolls marbles right"><span class="icon"></span><span class="count"></span></button>
+          <button class="tray-item" data-kind="crossover" data-lean="none" aria-label="Crossover: marbles pass straight across it"><span class="icon"></span><span class="count"></span></button>
         </div>
-        <p class="hint">Drag a part onto the board. Drag a part you placed back to the tray (or off the board) to take it away.</p>
+        <p class="hint">Drag a part onto the board. Tap a ramp you placed to flip it. Drag a part you placed off the board to take it away.</p>
 
         <div id="controls">
-          <button id="start">Start</button>
+          <button id="start"><span class="dot"></span><span class="label">Start</span></button>
           <button id="reset">Reset marbles</button>
         </div>
         <p id="result" role="status"></p>
@@ -37,13 +37,14 @@
 
   <footer>
     Puzzles from the <a href="https://upperstory.com/turingtumble/assets/practice-guide-2021.pdf">Turing Tumble Practice Guide</a> by UpperStory.
-    Pictures from <a href="https://github.com/jessecrossen/ttsim">ttsim</a> by Jesse Crossen.
+    Board, parts and marble physics are <a href="https://github.com/jessecrossen/ttsim">ttsim</a> by Jesse Crossen, running unmodified.
     Non-commercial.
   </footer>
 
-  <script src="data/puzzles.js?v=21"></script>
-  <script src="js/vendor/matter.min.js?v=21"></script>
-  <script src="js/board.js?v=21"></script>
-  <script src="js/marbles.js?v=21"></script>
+  <script src="data/puzzles.js?v=23"></script>
+  <!-- ttsim's own built files, copied unchanged from its docs/ folder -->
+  <script src="vendor/ttsim/system.js"></script>
+  <script src="vendor/ttsim/app.js"></script>
+  <script src="js/ttgame.js?v=3"></script>
 </body>
 </html>

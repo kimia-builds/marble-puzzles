@@ -1,8 +1,8 @@
 # Marble Puzzles (working title)
 
 A small, simplified browser version of the first few exercises from the
-Turing Tumble Practice Guide. The project is at the planning stage: this
-repo holds the docs that describe what we want to build. No code yet.
+Turing Tumble Practice Guide. The puzzle page works for all eleven puzzles;
+the story and code pages around them are not built yet (see docs/plan.md).
 
 ## What we're making
 
@@ -14,8 +14,8 @@ For each puzzle:
 - The puzzle's **starting parts are already in place**.
 - The person only **adds the parts they're given** (for these first puzzles,
   ramps) to finish the path.
-- They press the lever, and **marbles tumble down, animated** the way they are
-  in the ttsim simulator.
+- They press Start, and **marbles tumble down** in the real ttsim simulator:
+  the board, parts, marbles and physics are ttsim's own code, running unchanged.
 - A **reset** button puts the marbles back at the top. That's all it does.
 
 Deliberately left out: speed control, board size, zoom, saving/loading, and
@@ -23,8 +23,9 @@ any part that hasn't been introduced yet at that point in the guide.
 
 ## The puzzles
 
-Eleven puzzles in six stages (Challenges 1 to 6, each preceded by a free-play
-practice puzzle where the guide has one). The crossover is introduced at
+Eleven puzzles in six stages (Challenges 1 to 6, each preceded by the guide's
+practice puzzle where it has one). All eleven are real puzzles: each has to be
+solved to move on to the next page. The crossover is introduced at
 Challenge 5. See [docs/exercises.md](docs/exercises.md).
 
 ## Later idea: the reward page
@@ -36,5 +37,11 @@ correctly (both are required; see "What counts as solved" in docs/plan.md), a co
 ## Where things come from
 
 - Puzzles: the [Turing Tumble Practice Guide](https://upperstory.com/turingtumble/assets/practice-guide-2021.pdf) (UpperStory).
-- Look, feel and animation: [ttsim](https://github.com/jessecrossen/ttsim) by Jesse Crossen (Unlicense, free to reuse).
-  See [docs/reuse-from-ttsim.md](docs/reuse-from-ttsim.md).
+- Board, parts, marbles and physics: [ttsim](https://github.com/jessecrossen/ttsim) by Jesse Crossen (Unlicense, free to reuse),
+  copied unchanged into `vendor/ttsim`. See [docs/reuse-from-ttsim.md](docs/reuse-from-ttsim.md).
+
+## Trying it
+
+The page loads its parts over the network, so it has to be opened through a
+web server (the Claude preview, or the published site), not by double-clicking
+`index.html`.

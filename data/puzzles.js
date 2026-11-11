@@ -70,7 +70,6 @@ window.PUZZLES = {
   },
   {
    "id": 2,
-   "practice": true,
    "name": "Practice Puzzle A for Challenge 2",
    "guide_page": 3,
    "goal_text": "Make all of the blue balls (and only the blue balls) reach the end.",
@@ -144,7 +143,7 @@ window.PUZZLES = {
    "id": 3,
    "name": "Challenge 2: Re-entry",
    "guide_page": 5,
-   "goal_text": "Make all of the blue balls (and only the blue balls) reach the end. The starting setup leads balls to the right lever, so use the ramps to lead them back to the left lever.",
+   "goal_text": "Make all of the blue balls (and only the blue balls) reach the end. The starting setup leads balls to the right turnstile, so use the ramps to lead them back to the left turnstile.",
    "goal_rule": "blue_only",
    "balls": {
     "blue": 3,
@@ -213,7 +212,6 @@ window.PUZZLES = {
   },
   {
    "id": 4,
-   "practice": true,
    "name": "Practice Puzzle A for Challenge 3",
    "guide_page": 7,
    "goal_text": "Start the machine by releasing the blue ball. The blue ball should then release the red ball.",
@@ -367,7 +365,6 @@ window.PUZZLES = {
   },
   {
    "id": 6,
-   "practice": true,
    "name": "Practice Puzzle A for Challenge 4",
    "guide_page": 11,
    "goal_text": "Release one blue ball and then all of the red balls.",
@@ -582,7 +579,6 @@ window.PUZZLES = {
   },
   {
    "id": 8,
-   "practice": true,
    "name": "Practice Puzzle A for Challenge 5",
    "guide_page": 17,
    "goal_text": "Make the pattern blue, red, blue, red, blue, red...  The new crossover part lets two paths cross without touching.",
@@ -697,7 +693,7 @@ window.PUZZLES = {
    "id": 9,
    "name": "Challenge 5: Entropy",
    "guide_page": 19,
-   "goal_text": "Make the pattern blue, red, blue, red, blue, red... You have to build a path for the red marbles over to the left lever, and the crossover lets it cross the blue marbles' path.",
+   "goal_text": "Make the pattern blue, red, blue, red, blue, red... You have to build a path for the red marbles over to the left turnstile, and the crossover lets it cross the blue marbles' path.",
    "goal_rule": "alternate",
    "balls": {
     "blue": 3,
@@ -808,7 +804,6 @@ window.PUZZLES = {
   },
   {
    "id": 10,
-   "practice": true,
    "name": "Practice Puzzle A for Challenge 6",
    "guide_page": 21,
    "goal_text": "Make the pattern blue, red, blue, red, blue, red... The blue and red paths cross three times, and each crossing needs a crossover.",

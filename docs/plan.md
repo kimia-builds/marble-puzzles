@@ -1,7 +1,7 @@
 # Build plan
 
-Decided with Kimia: small new page that borrows ttsim's ramp/ball pictures and
-its marble-physics library; puzzle layouts read from the UpperStory PDF;
+Decided with Kimia: a small page that runs the real ttsim simulator, unchanged,
+for the board and marbles (see docs/reuse-from-ttsim.md); puzzle layouts read from the UpperStory PDF;
 desktop and tablet (mouse or touch); the finished thing is a **journey** of
 puzzles with story/code pages between them.
 
@@ -11,11 +11,14 @@ A fixed sequence of pages:
 
 story 1 → puzzle → congrats + code box → story 2 → … → stage 6 → final page
 
-(Six stages = Challenges 1-6. Practice puzzles are free play with no solved state, so they never unlock a code box; how a stage moves on from its practice puzzle is decided in session 5.)
+(Six stages = Challenges 1-6. Stages 2 to 6 have two puzzles each: the guide's practice puzzle, then the Challenge.
+Both are real puzzles with a solved state. **Every puzzle has to be genuinely solved to move on to the next page**:
+solving a stage's practice puzzle opens that stage's Challenge, and solving the Challenge opens the stage's congrats page
+and code box. Nothing in a stage can be skipped.)
 
 - A person cannot reach a later page without typing the right code.
-- Each puzzle page: locked board, pre-placed ramps, a tray of ramps to drag
-  in, a lever button, animated marbles, a Reset button (resets marbles only).
+- Each puzzle page: locked ttsim board, pre-placed parts, a tray of parts to drag
+  in, a Start button, ttsim's marbles, a Reset button (resets marbles only).
 - The page itself checks the puzzle goal. Only a genuinely solved run unlocks
   that round's code box. (This is the "watched it run correctly" check.)
 
@@ -23,18 +26,19 @@ story 1 → puzzle → congrats + code box → story 2 → … → stage 6 → f
 
 Success needs BOTH of these, every time:
 
-1. **Correct marble output**, by the puzzle's `goal_rule`: blue only (challenges 1-2); one blue then all the red (3); one red then all the blue (4); alternating blue, red, blue... (5-6). Practice puzzles have no rule: they just report what came out.
+1. **Correct marble output**, by the puzzle's `goal_rule`: blue only (challenges 1-2); one blue then all the red (3); one red then all the blue (4); alternating blue, red, blue... (5-6). Each practice puzzle has a rule of its own in the same way (usually its Challenge's rule; the one before Challenge 3 is "the blue marble sets off the red one").
 2. **Correct ramp setup**: the ramps the player placed are exactly the guide's solution
    (`guide_solution_ramps`): every ramp placed, in the right spot, leaning the right way, none extra.
 
 Marbles reaching the goal with any other setup is NOT a solve. Direction is part of the setup.
-Checked by `setupCheck()` in `js/marbles.js`. This is the "built the pattern *and* watched it run
+Checked by `setupCheck()` in `js/ttgame.js`. This is the "built the pattern *and* watched it run
 correctly" idea from the README, and it is what unlocks a round's code box.
 
 ## Choices I made so you don't have to (say if you disagree)
 
-- Plain web page: HTML, CSS and JavaScript, no build step, so it opens
-  straight from the folder and publishes anywhere. Physics library: matter.js.
+- Plain web page: HTML, CSS and JavaScript, no build step, so it publishes
+  anywhere. It needs a web server to open (not a double-click on the file).
+  The board and physics are ttsim's own built files in `vendor/ttsim`.
 - All story text, codes and puzzle layouts live in **data files**, not in the
   code. Changing a story line or a code never touches the game logic.
 - Codes are stored scrambled (hashed), so they aren't readable in the page
@@ -56,8 +60,10 @@ Keep each session to its one job; start a fresh session for the next.
 | 5 | **The journey.** Story pages, congrats pages, code boxes, locking, remembered progress, final page. Placeholder text and codes. | You can only get through by solving and entering codes, start to finish. | Story text and codes (can arrive later; placeholders until then). |
 | 6 | **Polish and publish.** Tablet touch check, small-screen sanity, credits visible, publish. | Live link works on a tablet. | Nothing. |
 
-**Status:** Sessions 1, 2, 3 (3a marbles and ramps, 3b levers and win check) and 4 are done.
-Since then (after Kimia's playtesting): levers span the whole bottom and are blue/red; practice puzzles are free play; runs use 3 marbles instead of 8; the crossover part, Challenges 4-6 and practice 5/6 were added (11 puzzles, 6 stages). Session 4: the page can show any of the puzzles (`index.html?puzzle=N`, with a temporary row of
+**Status:** Sessions 1 to 4 are done, and the board and marbles were then rebuilt on the real ttsim engine
+(Kimia found the hand-made version did not look or feel like ttsim). All 11 puzzles solve with the guide's solution on it.
+The bottom of the board is ttsim's slopes and two turnstiles (Kimia's choice, replacing the earlier lever bars); speed is ttsim's normal speed.
+Practice puzzles were free play for a while; now that the board is the real ttsim one they are ordinary solvable puzzles again, checked exactly like the Challenges (Kimia's decision). Also since playtesting: runs use 3 marbles instead of 8; the crossover part, Challenges 4-6 and practice 5/6 were added (11 puzzles, 6 stages). Session 4: the page can show any of the puzzles (`index.html?puzzle=N`, with a temporary row of
 number links that Session 5 replaces). Each puzzle uses its own win rule from `data/puzzles.js`.
 
 Sessions 2 and 3 are the biggest. If session 3 runs long, split it at "marbles
@@ -80,6 +86,6 @@ keep it non-commercial. The repo can be made public.
 ## Rules to keep it cheap
 
 - Each session starts by reading only this file and the one data file it needs.
-- No reading of the whole ttsim source: only the sprite sheet and physics notes
-  in `docs/reuse-from-ttsim.md`.
+- ttsim is used as it is, never re-created by hand. If something should look or
+  move differently, check how ttsim does it first (docs/reuse-from-ttsim.md).
 - Show finished slices one visible change at a time, as with Habitat.
