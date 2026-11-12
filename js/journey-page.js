@@ -1,6 +1,6 @@
 // The journey's story, clue and final pages (index.html). Puzzles are on puzzle.html.
 // Opening index.html with no address takes the person to the furthest page they have reached.
-// Back and Next sit in the same place on every page (see frame() in js/journey-core.js).
+// Back, Start over and Next sit in the same place on every page (see frame() in js/journey-core.js).
 (function () {
   "use strict";
 
@@ -141,9 +141,5 @@
   if (page.kind === "final") {
     el("h1", page.heading);
     paragraphs(page.text);
-    var again = el("button", "Start over", "start-over");
-    again.addEventListener("click", function () {
-      if (window.confirm("Start the whole journey again from the beginning?")) J.startOver();
-    });
   }
 })();

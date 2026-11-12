@@ -97,7 +97,7 @@ The clue on each page is a small extra puzzle or question whose answer is the co
 - A solved puzzle keeps his parts (Kimia's request): going Back to it, or reopening it, shows the setup
   that solved it, with the marbles back in their hoppers. It is saved at the moment of solving; changes
   made afterwards without solving again are not kept. A puzzle not solved yet always opens fresh (Kimia's request).
-- The final page has a "Start over" button (asks first); it also clears the saved boards.
+- Every page has a "Start over" button, bottom centre between Back and Next (asks first); it also clears the saved boards.
 - **The real story is in** (Alia's Story Beats, seven parts, six codes). The order changed slightly from the
   placeholder version: Part 1 now has its own question and code box (the big "Start Stage 1" button is gone), and
   the extra code page after Stage 6 is gone, so solving Stage 6 opens Part 7 directly. In each part, the closing

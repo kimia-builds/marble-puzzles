@@ -97,7 +97,7 @@
 
   // The frame every page shares, always in the same places:
   //   top: a progress bar with one segment per page (grouped by stage);
-  //   bottom: Back (left) and Next (right). Next stays greyed out until the page is done.
+  //   bottom: Back (left), Start over (centre) and Next (right). Next stays greyed out until the page is done.
   // Returns setNext(on) to switch Next on once the puzzle is solved or the code is right.
   function frame(step) {
     var top = document.createElement("header");
@@ -133,9 +133,12 @@
     var bottom = document.createElement("nav");
     bottom.id = "step-nav";
     bottom.setAttribute("aria-label", "Back and next");
-    bottom.innerHTML = '<button id="back" type="button">← Back</button><button id="next" type="button">Next →</button>';
+    bottom.innerHTML = '<button id="back" type="button">← Back</button><button id="restart" type="button">Start over</button><button id="next" type="button">Next →</button>';
     document.body.appendChild(bottom);
     var back = bottom.querySelector("#back"), nextBtn = bottom.querySelector("#next");
+    bottom.querySelector("#restart").addEventListener("click", function () {
+      if (window.confirm("Start the whole journey again from the beginning?")) window.JOURNEY_CORE.startOver();
+    });
     back.disabled = step === 0;
     back.addEventListener("click", function () { if (step > 0) window.location.href = urlFor(step - 1); });
     nextBtn.addEventListener("click", function () { if (!nextBtn.disabled) next(step); });
