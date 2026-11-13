@@ -66,9 +66,9 @@ Keep each session to its one job; start a fresh session for the next.
 
 | # | Job | Done when | Needs from Kimia |
 |---|---|---|---|
-| 1 | **Puzzle data.** Download the guide (public PDF), read the six pages, write `data/puzzles.js` (pre-placed ramps, ramps to add, ball counts, goal). | A picture of each board is shown to Kimia and confirmed to match the guide. | Confirm the six pictures. |
+| 1 | **Puzzle data.** Download the guide (public PDF), read the six pages, write `data/puzzles.js` (pre-placed ramps, ramps to add, marble counts, goal). | A picture of each board is shown to Kimia and confirmed to match the guide. | Confirm the six pictures. |
 | 2 | **Board and ramps.** Page that draws the locked board from the data, with the ramp tray and drag-to-place (mouse and touch), snapping to valid spots. No marbles yet. Puzzle 1 only. | You can place and remove the 4 ramps on puzzle 1. Nothing else on the board moves. | Quick look and feedback. |
-| 3 | **Marbles and levers (the heavy part).** Marble release, physics, ramps and the two bottom levers, Reset. Puzzle 1 only. | Marbles tumble like ttsim; correct solution sends the blue balls to the end. | Judge whether it *feels* right. |
+| 3 | **Marbles and levers (the heavy part).** Marble release, physics, ramps and the two bottom levers, Reset. Puzzle 1 only. | Marbles tumble like ttsim; correct solution sends the blue marbles to the end. | Judge whether it *feels* right. |
 | 4 | **Goal checking and all six puzzles.** Per-puzzle win rules (blue only; blue then red; one blue then all red). Load puzzles 2–6. Check each against the guide's own solution. | All six solve with the guide's solution and fail with a wrong one. | None. |
 | 5 | **The journey.** Story pages, congrats pages, code boxes, locking, remembered progress, final page. Placeholder text and codes. | You can only get through by solving and entering codes, start to finish. | Story text and codes (can arrive later; placeholders until then). |
 | 6 | **Polish and publish.** Tablet touch check, small-screen sanity, credits visible, publish. | Live link works on a tablet. | Nothing. |

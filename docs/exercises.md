@@ -5,19 +5,19 @@ order. Page numbers are the guide's own printed page numbers.
 The game has **six stages**, one per Challenge (1 to 6). The practice puzzles
 before a challenge are **real puzzles too**: same solved check as the Challenges
 (right marbles and the guide's exact setup), and each must be solved to move on.
-Every puzzle uses two ball colours (blue, red) and the two turnstiles at the
+Every puzzle uses two marble colours (blue, red) and the two turnstiles at the
 bottom of the board (ttsim's stand-in for the real board's levers). Ramps are the first part; the **crossover** is introduced
 at Challenge 5 (that is where the guide introduces it too).
 
 | # | Stage | Name in the guide | Guide page | Goal | Parts to add |
 |---|---|---|---|---|---|
-| 1 | 1 | Challenge 1: Gravity | 1 | All the blue balls (and only blue) reach the end. | 4 ramps |
-| 2 | 2 | Practice Puzzle A for Challenge 2 | 3 | All the blue balls (and only blue) reach the end. | 3 ramps |
+| 1 | 1 | Challenge 1: Gravity | 1 | All the blue marbles (and only blue) reach the end. | 4 ramps |
+| 2 | 2 | Practice Puzzle A for Challenge 2 | 3 | All the blue marbles (and only blue) reach the end. | 3 ramps |
 | 3 | 2 | Challenge 2: Re-entry | 5 | Same goal. | 5 ramps |
-| 4 | 3 | Practice Puzzle A for Challenge 3 | 7 | The blue ball releases the red ball. | 5 ramps |
-| 5 | 3 | Challenge 3: Ignition | 9 | One blue ball, then all the red. | 6 ramps |
-| 6 | 4 | Practice Puzzle A for Challenge 4 | 11 | One blue ball, then all the red. | 6 ramps |
-| 7 | 4 | Challenge 4: Fusion | 15 | One RED ball (Start is on the red side), then all the blue. | 12 ramps |
+| 4 | 3 | Practice Puzzle A for Challenge 3 | 7 | The blue marble releases the red marble. | 5 ramps |
+| 5 | 3 | Challenge 3: Ignition | 9 | One blue marble, then all the red. | 6 ramps |
+| 6 | 4 | Practice Puzzle A for Challenge 4 | 11 | One blue marble, then all the red. | 6 ramps |
+| 7 | 4 | Challenge 4: Fusion | 15 | One RED marble (Start is on the red side), then all the blue. | 12 ramps |
 | 8 | 5 | Practice Puzzle A for Challenge 5 | 17 | Pattern blue, red, blue, red... | 1 crossover |
 | 9 | 5 | Challenge 5: Entropy | 19 | Pattern blue, red, blue, red... | 9 ramps |
 | 10 | 6 | Practice Puzzle A for Challenge 6 | 21 | Pattern blue, red, blue, red... | 3 crossovers |
